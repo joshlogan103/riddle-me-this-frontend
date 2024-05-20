@@ -15,3 +15,10 @@ export const createHuntTemplate = async (payload) => {
     },
   });
 };
+
+// GET DETAILS OF A SPECIFIC HUNT TEMPLATE BY ID
+
+export const getHuntTemplateById = async (huntTemplateId) => {
+  return await api.get(`/hunt-templates/${huntTemplateId}/`);
+}
+
