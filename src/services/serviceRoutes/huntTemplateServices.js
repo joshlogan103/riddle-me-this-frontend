@@ -22,3 +22,12 @@ export const getHuntTemplateById = async (huntTemplateId) => {
   return await api.get(`/hunt-templates/${huntTemplateId}/`);
 }
 
+/// UPDATE A HUNT TEMPLATE BY ID
+
+export const updateHuntTemplate = async (huntTemplateId, payload) => { 
+  return await api.put(`/hunt-templates/${huntTemplateId}/`, payload, {
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+};
