@@ -31,3 +31,9 @@ export const updateHuntTemplate = async (huntTemplateId, payload) => {
   },
 });
 };
+
+// DELETE A HUNT TEMPLATE BY ID
+
+export const deleteHuntTemplate = async (huntTemplateId) => {
+  return await api.delete(`/hunt-templates/${huntTemplateId}/`);
+}
