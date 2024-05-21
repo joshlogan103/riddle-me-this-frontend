@@ -44,7 +44,7 @@ const Camera = () => {
         </button>
       )}
       {cameraOpen && (
-        <div>
+        <div className="camera-content">
           <Webcam
             audio={false}
             ref={webcamRef}
@@ -57,8 +57,11 @@ const Camera = () => {
         </div>
       )}
       {imageSrc && (
-        <div>
+        <div className="image-preview">
           <img src={imageSrc} alt="captured" className="captured-image" />
+          <button className="submit-button" onClick={captureAndSend}>
+            Submit
+          </button>
         </div>
       )}
     </div>

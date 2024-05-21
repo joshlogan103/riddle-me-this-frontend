@@ -2,23 +2,26 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.webcam {
-  width: 100%;
-  max-width: 400px;
+.camera-content, .image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.captured-image {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 10px;
+.webcam, .captured-image {
+  max-width: 100%;
+  height: auto;
 }
 
-.open-camera-button,
+.open-camera-button, .submit-button {
+  margin-top: 20px;
+}
+
 .submit-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+  position: static;
 }
