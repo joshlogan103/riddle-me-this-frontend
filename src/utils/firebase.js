@@ -1,18 +1,23 @@
 // src/firebase.js
-import firebase from 'firebase/app';
-import 'firebase/storage';
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+// Import getAnalytics only if you need it
+// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyADGHpiCzXnWXwtWhv4Bk5krdos2q7D-vc",
+  authDomain: "riddle-me-this-9ecde.firebaseapp.com",
+  projectId: "riddle-me-this-9ecde",
+  storageBucket: "riddle-me-this-9ecde.appspot.com",
+  messagingSenderId: "104971831793",
+  appId: "1:104971831793:web:6897a8030d88ef86119c50",
+  measurementId: "G-Z95FJG7XZ2"
 };
 
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+// Initialize analytics only if you need it
+// const analytics = getAnalytics(app);
 
-const storage = firebase.storage();
+const storage = getStorage(app);
 
-export { storage, firebase as default };
+export { storage };
