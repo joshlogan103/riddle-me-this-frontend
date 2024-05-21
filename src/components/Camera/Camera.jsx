@@ -6,7 +6,8 @@ import './Camera.css';
 const Camera = () => {
   const webcamRef = useRef(null);
   const [imageSrc, setImageSrc] = useState(null);
-  const [croppedArea, setCroppedArea] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
 
   const capture = () => {
@@ -15,7 +16,7 @@ const Camera = () => {
   };
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    setCroppedArea(croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
   const cropImage = async () => {
@@ -24,18 +25,18 @@ const Camera = () => {
     image.src = imageSrc;
     image.onload = async () => {
       const ctx = canvas.getContext('2d');
-      canvas.width = croppedArea.width;
-      canvas.height = croppedArea.height;
+      canvas.width = croppedAreaPixels.width;
+      canvas.height = croppedAreaPixels.height;
       ctx.drawImage(
         image,
-        croppedArea.x,
-        croppedArea.y,
-        croppedArea.width,
-        croppedArea.height,
+        croppedAreaPixels.x,
+        croppedAreaPixels.y,
+        croppedAreaPixels.width,
+        croppedAreaPixels.height,
         0,
         0,
-        croppedArea.width,
-        croppedArea.height
+        croppedAreaPixels.width,
+        croppedAreaPixels.height
       );
       const croppedImageSrc = canvas.toDataURL('image/jpeg');
       setCroppedImage(croppedImageSrc);
@@ -45,6 +46,9 @@ const Camera = () => {
       link.href = croppedImageSrc;
       link.download = 'cropped-image.jpg';
       link.click();
+
+      // Remove original image
+      setImageSrc(null);
     };
   };
 
@@ -65,23 +69,20 @@ const Camera = () => {
       ) : (
         <div>
           <div className="crop-container">
-            <img src={imageSrc} alt="captured" style={{ display: 'none' }} />
             <Cropper
               image={imageSrc}
-              crop={{ x: 0, y: 0 }}
-              zoom={1}
+              crop={crop}
               aspect={4 / 3}
-              onCropChange={() => {}}
+              onCropChange={setCrop}
               onCropComplete={onCropComplete}
-              onZoomChange={() => {}}
             />
           </div>
           <button className="crop-button" onClick={cropImage}>
             Crop and Save
           </button>
-          {croppedImage && <img src={croppedImage} alt="cropped" className="cropped-image" />}
         </div>
       )}
+      {croppedImage && <img src={croppedImage} alt="cropped" className="cropped-image" />}
     </div>
   );
 };
