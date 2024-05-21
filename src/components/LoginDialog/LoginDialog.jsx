@@ -1,5 +1,6 @@
 import React, { useReducer, useState } from "react";
 import { Dialog, Flex, Button, TextField, Text } from "@radix-ui/themes";
+import { loginUser, createUser } from "../../services/serviceRoutes/userServices";
 
 const LoginDialog = ({ buttonName }) => {
   const [registering, setRegistering] = useState(false);
@@ -29,7 +30,9 @@ const LoginDialog = ({ buttonName }) => {
   }
 
   const handleSubmit = () => {
-    console.log(formState)
+    registering
+    ? createUser(formState)
+    : loginUser(formState)
   }
 
 
