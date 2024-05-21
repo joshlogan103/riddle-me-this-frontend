@@ -10,6 +10,7 @@ import HuntDetails from "./pages/HuntDetails/HuntDetails.jsx"
 import LaunchHunt from "./pages/LaunchHunt/LaunchHunt.jsx"
 import MyProfile from "./pages/MyProfile/MyProfile.jsx"
 import CameraPage from "./pages/CameraPage/cameraPage.jsx";
+import './App.css';
 
 function App() {
 
