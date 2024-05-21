@@ -1,0 +1,11 @@
+.navbar {
+    display: flex;
+    width: 100%;
+    background-color: black;
+    height: 60px;
+    justify-content: flex-end;
+}
+
+.menu-root {
+    
+}
