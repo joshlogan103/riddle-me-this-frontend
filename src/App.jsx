@@ -9,7 +9,7 @@ import EditProfile from "./pages/EditProfile/EditProfile.jsx"
 import HuntDetails from "./pages/HuntDetails/HuntDetails.jsx"
 import LaunchHunt from "./pages/LaunchHunt/LaunchHunt.jsx"
 import MyProfile from "./pages/MyProfile/MyProfile.jsx"
-
+import CameraPage from "./pages/CameraPage/cameraPage.jsx";
 
 function App() {
 
@@ -26,6 +26,7 @@ function App() {
         <Route path="/hunt-details" element={<HuntDetails />} />
         <Route path="/launch-hunt" element={<LaunchHunt />} />
         <Route path="/profile" element={<MyProfile />} />
+        <Route path="/camera" element={<CameraPage />} />
       </Routes>
     </>
   );
