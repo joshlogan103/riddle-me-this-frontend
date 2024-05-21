@@ -1,15 +1,17 @@
 import React from 'react'
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { DropdownMenu } from '@radix-ui/themes';
 import { NavLink } from 'react-router-dom'
 import "./navbar.css"
-import { Button } from '@radix-ui/themes';
+import { Button, Box, Flex } from '@radix-ui/themes';
+import { TextAlignJustifyIcon } from '@radix-ui/react-icons'
+
 
 const Navbar = () => {
   return (
-    <div className='navbar'>
+    <Flex align='end'>
         <DropdownMenu.Root className="menu-root">
             <DropdownMenu.Trigger>
-                <Button>&#9776;</Button>
+                <Button m="1"><TextAlignJustifyIcon /></Button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
                 <DropdownMenu.Item>
@@ -26,7 +28,7 @@ const Navbar = () => {
                 </DropdownMenu.Item>
             </DropdownMenu.Content>
         </DropdownMenu.Root>
-    </div>
+    </Flex>
   )
 }
 
