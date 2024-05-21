@@ -1,24 +1,37 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { Dialog, Flex, Button, TextField, Text } from "@radix-ui/themes";
 
 const LoginDialog = ({ buttonName }) => {
   const [registering, setRegistering] = useState(false);
-
-  const initialState = registering? {
-    username: "",
-    password: "",
-    email: ""
-  }
-  :
-  {
-    username: "",
-    password: "",
-  }
-  const [formState, setFormState] = useState()
-
   const toggleRegistering = () => {
-    setRegistering(!registering)
+    setRegistering(!registering);
+  };
+
+  const initialState ={
+    email: "",
+    username: "",
+    password: ""
   }
+
+  const [formState, dispatch] = useReducer(formReducer, initialState);
+
+  function formReducer(state, action) {
+    return {
+        ...state,
+        [action.field]: action.payload
+    }
+  }
+  const handleFormChange = (e) => {
+    dispatch({
+        field: e.target.name,
+        payload: e.target.value
+    })
+  }
+
+  const handleSubmit = () => {
+    console.log(formState)
+  }
+
 
   return (
     <Dialog.Root>
@@ -39,8 +52,10 @@ const LoginDialog = ({ buttonName }) => {
                 Email
               </Text>
               <TextField.Root
-                defaultValue="Bob the Builder"
                 placeholder="Enter username"
+                name="email"
+                value={formState.email}
+                onChange={(e) => handleFormChange(e)}
               />
             </label>
           ) : null}
@@ -49,8 +64,10 @@ const LoginDialog = ({ buttonName }) => {
               Username
             </Text>
             <TextField.Root
-              defaultValue="Bob the Builder"
               placeholder="Enter username"
+              name="username"
+              value={formState.username}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
           <label>
@@ -58,9 +75,11 @@ const LoginDialog = ({ buttonName }) => {
               Password
             </Text>
             <TextField.Root
-              defaultValue=""
               placeholder="password"
               type="password"
+              name="password"
+              value={formState.password}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
         </Flex>
@@ -71,10 +90,12 @@ const LoginDialog = ({ buttonName }) => {
             </Button>
           </Dialog.Close>
           <Dialog.Close>
-            <Button variant="surface">Submit</Button>
+            <Button variant="surface" onClick={handleSubmit}>Submit</Button>
           </Dialog.Close>
         </Flex>
-        <p>Need to <a onClick={toggleRegistering}>Create an Account?</a></p>
+        <p>
+          Need to <a onClick={toggleRegistering}>Create an Account?</a>
+        </p>
       </Dialog.Content>
     </Dialog.Root>
   );
