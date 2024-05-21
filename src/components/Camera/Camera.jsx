@@ -17,7 +17,11 @@ const Camera = () => {
     setCameraOpen(false);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/hunt-templates/1/riddle-items/1/participations/1/riddle-item-submissions/', {
+      // TEST ON PRODUCTION
+      // const response = await fetch('http://127.0.0.1:8000/api/hunt-templates/1/riddle-items/1/participations/1/riddle-item-submissions/', {
+
+      // TEST ON DEPLOYMENT
+      const response = await fetch('https://riddle-me-this-e41841fe3e54.herokuapp.com/api/hunt-templates/1/riddle-items/4/participations/1/riddle-item-submissions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
