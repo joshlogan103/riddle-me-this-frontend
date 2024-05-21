@@ -4,6 +4,18 @@ import { Dialog, Flex, Button, TextField, Text } from "@radix-ui/themes";
 const LoginDialog = ({ buttonName }) => {
   const [registering, setRegistering] = useState(false);
 
+  const initialState = registering? {
+    username: "",
+    password: "",
+    email: ""
+  }
+  :
+  {
+    username: "",
+    password: "",
+  }
+  const [formState, setFormState] = useState()
+
   const toggleRegistering = () => {
     setRegistering(!registering)
   }
