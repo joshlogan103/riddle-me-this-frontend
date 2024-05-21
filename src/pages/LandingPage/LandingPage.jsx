@@ -2,6 +2,7 @@ import React from "react";
 import "./landingPage.css";
 import { Button, Flex } from "@radix-ui/themes";
 import { NavLink } from "react-router-dom";
+import LoginDialog from "../../components/LoginDialog/LoginDialog";
 
 const LandingPage = () => {
   return (
@@ -17,10 +18,7 @@ const LandingPage = () => {
         <Button variant="surface" asChild>
           <NavLink to="/browse">Browse</NavLink>
         </Button>
-        <Button variant="surface">
-          {/* TODO: link login to login modal */}
-          <NavLink>Login</NavLink>
-        </Button>
+        <LoginDialog buttonName="Login"/>
       </Flex>
     </div>
   );
