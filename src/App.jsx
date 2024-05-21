@@ -9,12 +9,8 @@ import EditProfile from "./pages/EditProfile/EditProfile.jsx"
 import HuntDetails from "./pages/HuntDetails/HuntDetails.jsx"
 import LaunchHunt from "./pages/LaunchHunt/LaunchHunt.jsx"
 import MyProfile from "./pages/MyProfile/MyProfile.jsx"
-<<<<<<< HEAD
-import CameraPage from "./pages/CameraPage/cameraPage.jsx";
-import './App.css';
-=======
 import ProtectedRoutes from "./protected_routes/ProtectedRoutes.jsx";
->>>>>>> 81090971c5fa14f7c2f2432d0f5048e30575763a
+import CameraPage from "../src/pages/CameraPage/cameraPage.jsx";
 
 function App() {
 

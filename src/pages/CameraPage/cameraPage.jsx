@@ -1,4 +1,3 @@
-import React from 'react'
 import Camera from '../../components/Camera/Camera' // Import the 'Camera' component from the appropriate module
 
 const CameraPage = () => {
