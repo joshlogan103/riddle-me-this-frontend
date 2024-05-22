@@ -13,11 +13,12 @@ export const AuthContextComponent = ({ children }) => {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
-    const initializeConext = async () => {
+    const intializeContext = async () => {
       try {
         const isUserValid = await tokenRefresh();
-        if (isUserValid.refresh) {
+        if (isUserValid.status === 200) {
           setIsUserLoggedIn(true);
+          setToken(isUserValid.data.access)
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -29,14 +30,13 @@ export const AuthContextComponent = ({ children }) => {
         setAuthLoading(false);
       }
     };
-    initializeConext();
+    intializeContext();
   }, []);
 
   const loginUserAuth = async (payload) => {
     try {
       const response = await loginUser(payload);
       if (response.status === 200) {
-        console.log(response.data.access);
         setToken(response.data.access);
         setIsUserLoggedIn(true);
         console.log(
