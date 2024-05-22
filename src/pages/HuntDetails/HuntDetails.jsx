@@ -7,9 +7,9 @@ const HuntDetails = () => {
   const location = "Central Park, NY";
   const description = "Join us for an exciting midnight hunt at Central Park. Solve riddles, find clues, and enjoy a thrilling adventure with friends!";
   const leaderboardData = [
-    { rank: 1, player: "User1", solved: 10, time: "" },
-    { rank: 2, player: "User2", solved: 8, time: "" },
-    { rank: 3, player: "User3", solved: 7, time: "" },
+    { rank: 1, player: "User1", solved: 10, time: "2:00 a.m." },
+    { rank: 2, player: "User2", solved: 8, time: "2:30 a.m." },
+    { rank: 3, player: "User3", solved: 7, time: "2:34 a.m." },
   ];
 
   return (
