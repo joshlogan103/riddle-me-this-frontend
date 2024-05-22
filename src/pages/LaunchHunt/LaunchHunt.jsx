@@ -1,5 +1,4 @@
 import React from 'react'
-import './launchHunt.css'
 import { Button, Flex, Text } from '@radix-ui/themes'
 
 const LaunchHunt = () => {
