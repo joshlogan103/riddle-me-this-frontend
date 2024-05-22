@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Flex, Text, Box } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom'; 
 import { useParams } from 'react-router-dom';
+import { getHuntInstanceById } from '../../services/serviceRoutes/huntInstanceServices';
 
 const HuntDetails = () => {
   const huntInstanceName = "Midnight Hunt at the Park";
