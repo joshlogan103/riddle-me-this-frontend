@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
 import './Camera.css';
 
@@ -18,11 +19,7 @@ const Camera = () => {
     setCameraOpen(false);
 
     try {
-      // TEST ON PRODUCTION
       const response = await fetch('http://127.0.0.1:8000/api/hunt-templates/1/riddle-items/1/participations/1/riddle-item-submissions/', {
-
-      // TEST ON DEPLOYMENT
-      // const response = await fetch('https://riddle-me-this-e41841fe3e54.herokuapp.com/api/hunt-templates/1/riddle-items/4/participations/1/riddle-item-submissions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,8 +43,8 @@ const Camera = () => {
   return (
     <div className="camera-container">
       {!cameraOpen && !imageSrc && (
-        <button className="open-camera-button" onClick={openCamera}>
-          Open Camera
+        <button className="icon-button" onClick={openCamera}>
+          <CameraIcon size={32} />
         </button>
       )}
       {cameraOpen && (

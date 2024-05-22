@@ -1,5 +1,3 @@
-/* src/components/Camera/Camera.css */
-
 .camera-container {
   display: flex;
   flex-direction: column;
@@ -20,6 +18,19 @@
 .webcam, .captured-image {
   max-width: 100%;
   height: auto;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.icon-button:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .open-camera-button, .submit-button {
