@@ -97,7 +97,7 @@ const BrowseHunts = () => {
                 size="4"
                 style={{ padding: "10px", borderBottom: "1px solid #ccc", justifyContent: "space-around" }}
               >
-                <NavLink to={`/hunt-detail/${result.id}`}>
+                <NavLink to={`/hunt-details/${result.id}/${result.scavenger_hunt.id}`}>
                   <div>{result.scavenger_hunt.name}</div>
                 </NavLink>
                 <div>{startTime}</div>

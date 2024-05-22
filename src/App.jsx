@@ -26,7 +26,7 @@ function App() {
           <Route path="/active-hunt/:huntInstanceId" element={<ActiveHuntPage />} />
           <Route path="/create-hunt" element={<CreateHuntTemplate />} />
           <Route path="/creator-control-panel" element={<CreatorControlPanel />} />
-          <Route path="/hunt-details" element={<HuntDetails />} />
+          <Route path="/hunt-details/:huntInstanceId/:huntTemplateId" element={<HuntDetails />} />
           <Route path="/launch-hunt" element={<LaunchHunt />} />
           <Route path="/profile" element={<MyProfile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
