@@ -7,7 +7,7 @@ import {
 import { AuthContext } from "../../contexts/AuthContext";
 
 const LoginDialog = ({ buttonName }) => {
-  const { loginUserAuth } = useContext(AuthContext);
+  const { loginUserAuth, createUserAuth } = useContext(AuthContext);
   const [registering, setRegistering] = useState(false);
   const toggleRegistering = () => {
     setRegistering(!registering);
@@ -33,7 +33,7 @@ const LoginDialog = ({ buttonName }) => {
       password: password,
     };
     registering
-      ? createUser({
+      ? createUserAuth({
           ...formState,
           email: email,
         })
