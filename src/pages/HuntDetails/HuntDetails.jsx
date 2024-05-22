@@ -3,6 +3,7 @@ import { Button, Flex, Text, Box } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom'; 
 import { useParams } from 'react-router-dom';
 import { getHuntInstanceById } from '../../services/serviceRoutes/huntInstanceServices';
+import Loading from '../../components/Loading/Loading';
 
 const HuntDetails = () => {
   const [huntInstance, setHuntInstance] = useState({});
@@ -13,7 +14,6 @@ const HuntDetails = () => {
   useEffect(() => {
     const fetchHuntInstance = async () => {
       try {
-        console.log('trying');
         const response = await getHuntInstanceById(huntTemplateId, huntInstanceId);
         if (response) {
           console.log(response.data);
@@ -31,7 +31,7 @@ const HuntDetails = () => {
   const navigate = useNavigate(); 
 
   if (loading) {
-    return <div>Loading...</div>; 
+    return <Loading />; 
   }
 
   
