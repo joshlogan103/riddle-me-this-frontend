@@ -26,3 +26,9 @@ export const createHuntInstance = async (huntTemplateId, payload) => {
 export const getHuntInstancesByTemplate = async (huntTemplateId) => {
   return await api.get(`/hunt-templates/${huntTemplateId}/hunt-instances/`);
 };
+
+// GET HUNT INSTANCE BY ID
+
+export const getHuntInstanceById = async (huntInstanceId) => {
+  return await api.get(`/hunt-instances/${huntInstanceId}`);
+}

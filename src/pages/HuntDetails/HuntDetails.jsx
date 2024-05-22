@@ -1,5 +1,7 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Flex, Text, Box } from '@radix-ui/themes';
+import { useNavigate } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 
 const HuntDetails = () => {
   const huntInstanceName = "Midnight Hunt at the Park";
@@ -12,6 +14,32 @@ const HuntDetails = () => {
     { rank: 3, player: "User3", solved: 7, time: "2:34 a.m." },
   ];
 
+  const [huntInstance, setHuntInstance] = useState({});
+  const huntInstanceId = useParams().huntInstanceId;
+  useEffect(() => {
+    const fetchHuntInstance = async () => {
+      try {
+        const response = await getHuntInstanceById(huntInstanceId);
+        if (!response) {
+          console.error('Error fetching hunt instance');
+          return;
+        }
+        setHuntInstance(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchHuntInstance();
+  }, [huntInstanceId]);
+
+
+
+
+
+
+
+  const navigate = useNavigate(); 
+
   return (
     <Flex
       className="hunt-details-container"
@@ -23,7 +51,14 @@ const HuntDetails = () => {
       <Text as="h1" size="6" weight="bold" color="indigo" variant="soft" highContrast>
         {huntInstanceName}
       </Text>
-      <Button color="indigo" variant="soft" size="large">Join the Hunt!</Button>
+      <Button 
+        color="indigo" 
+        variant="soft" 
+        size="large" 
+        onClick={() => navigate(`/active-hunt/${huntInstanceId}`)}
+      >
+        Join the Hunt!
+      </Button>
       <Flex direction="column" gap="10px" width="100%" align="center">
         <Text as="label" size="4xl" weight="medium">Start Time</Text>
         <Text>{startTime}</Text>
@@ -49,7 +84,7 @@ const HuntDetails = () => {
           e.currentTarget.style.transform = 'scale(1)';
         }}
       >
-        <Text style={{ color: '#4f46e5' }}>{description}</Text> 
+        <Text style={{ color: '#4f46e5' }}>{description}</Text>
       </Box>
       <Box
         style={{
@@ -82,6 +117,5 @@ const HuntDetails = () => {
     </Flex>
   );
 };
-
 
 export default HuntDetails;
