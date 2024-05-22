@@ -34,13 +34,13 @@ const HuntDetails = () => {
         style={{
           width: '80%',
           padding: '20px',
-          border: '1px solid #4f46e5', // Directly specify color
+          border: '1px solid #4f46e5', 
           borderRadius: '8px',
-          backgroundColor: '#e0e7ff', // Directly specify color
+          backgroundColor: '#e0e7ff', 
           textAlign: 'center',
-          boxShadow: '0 4px 8px #4f46e5', // Directly specify color
+          boxShadow: '0 4px 8px #4f46e5', 
           transition: 'transform 0.2s',
-          color: '#4f46e5' // Set the default text color
+          color: '#4f46e5' 
         }}
         onMouseOver={(e) => {
           e.currentTarget.style.transform = 'scale(1.05)';
@@ -49,7 +49,7 @@ const HuntDetails = () => {
           e.currentTarget.style.transform = 'scale(1)';
         }}
       >
-        <Text style={{ color: '#4f46e5' }}>{description}</Text> {/* Change the text color here */}
+        <Text style={{ color: '#4f46e5' }}>{description}</Text> 
       </Box>
       <Box
         style={{
