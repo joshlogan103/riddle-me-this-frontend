@@ -1,8 +1,8 @@
 import { api } from "../apiConnection";
 
 // TODO: getRiddleItemsByTempate
-export const getRiddleItemsByTempate = async (huntId) => {
-    return await api.get(`/hunt-templates/${huntId}/riddle-items/`)
+export const getRiddleItemsByTemplate = async (huntTemplateId) => {
+    return await api.get(`/hunt-templates/${huntTemplateId}/riddle-items/`)
 }
 
 // TODO: createRiddleItemByTemplate
