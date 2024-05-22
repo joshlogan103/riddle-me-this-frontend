@@ -6,6 +6,7 @@ import { Button, Box, Flex } from "@radix-ui/themes";
 import { TextAlignJustifyIcon } from "@radix-ui/react-icons";
 
 const Navbar = () => {
+    
   return (
     <div className="navbar">
       <DropdownMenu.Root className="menu-root">
@@ -15,16 +16,16 @@ const Navbar = () => {
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
             <NavLink to="/">Home</NavLink>
           </DropdownMenu.Item>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
             <NavLink to="/browse">Browse</NavLink>
           </DropdownMenu.Item>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
             <NavLink to="/profile">Profile</NavLink>
           </DropdownMenu.Item>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
             <NavLink to="/creator-control-panel">Create</NavLink>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
