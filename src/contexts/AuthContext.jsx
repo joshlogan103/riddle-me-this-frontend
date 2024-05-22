@@ -5,12 +5,14 @@ import {
   tokenRefresh,
 } from "../services/serviceRoutes/userServices";
 import { removeToken, setToken } from "../services/apiToken";
+import { useNavigate } from "react-router-dom"; 
 
 export const AuthContext = createContext(null);
 
 export const AuthContextComponent = ({ children }) => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const intializeContext = async () => {
@@ -42,11 +44,14 @@ export const AuthContextComponent = ({ children }) => {
         console.log(
           `successfully logged in user ${response.data.user.username}`
         );
+        console.log("redirect?")
+        navigate("/browse")
       }
-    } catch (error) {
+     } catch (error) {
       console.log(error);
     }
-  };
+  
+}
 
   const createUserAuth = async (payload) => {
     try {
@@ -58,6 +63,7 @@ export const AuthContextComponent = ({ children }) => {
           `successfully registered user ${response.data.user.username}`
         );
       }
+      navigate("/browse")
     } catch (error) {
       console.log(error);
     }
