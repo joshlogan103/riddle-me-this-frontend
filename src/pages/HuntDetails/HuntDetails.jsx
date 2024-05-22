@@ -1,6 +1,7 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Flex, Text, Box } from '@radix-ui/themes';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate for navigation
+import { useNavigate } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 
 const HuntDetails = () => {
   const huntInstanceName = "Midnight Hunt at the Park";
@@ -13,7 +14,31 @@ const HuntDetails = () => {
     { rank: 3, player: "User3", solved: 7, time: "2:34 a.m." },
   ];
 
-  const navigate = useNavigate();  // Create a navigate instance
+  const [huntInstance, setHuntInstance] = useState({});
+  const huntInstanceId = useParams().huntInstanceId;
+  useEffect(() => {
+    const fetchHuntInstance = async () => {
+      try {
+        const response = await getHuntInstanceById(huntInstanceId);
+        if (!response) {
+          console.error('Error fetching hunt instance');
+          return;
+        }
+        setHuntInstance(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchHuntInstance();
+  }, [huntInstanceId]);
+
+
+
+
+
+
+
+  const navigate = useNavigate(); 
 
   return (
     <Flex
@@ -30,7 +55,7 @@ const HuntDetails = () => {
         color="indigo" 
         variant="soft" 
         size="large" 
-        onClick={() => navigate('/active-hunt')} // Add onClick handler to navigate
+        onClick={() => navigate(`/active-hunt/${huntInstanceId}`)}
       >
         Join the Hunt!
       </Button>
