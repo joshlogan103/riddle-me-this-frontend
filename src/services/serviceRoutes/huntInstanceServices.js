@@ -29,6 +29,6 @@ export const getHuntInstancesByTemplate = async (huntTemplateId) => {
 
 // GET HUNT INSTANCE BY ID
 
-export const getHuntInstanceById = async (huntInstanceId) => {
-  return await api.get(`/hunt-instances/${huntInstanceId}`);
+export const getHuntInstanceById = async (huntTemplateId, huntInstanceId) => {
+  return await api.get(`/hunt-templates/${huntTemplateId}/hunt-instances/${huntInstanceId}`);
 }
