@@ -11,7 +11,6 @@ import LaunchHunt from "./pages/LaunchHunt/LaunchHunt.jsx"
 import MyProfile from "./pages/MyProfile/MyProfile.jsx"
 import ProtectedRoutes from "./protected_routes/ProtectedRoutes.jsx";
 import "./App.css"
-import Camera from "./components/Camera/Camera.jsx";
 
 function App() {
 
