@@ -6,7 +6,7 @@ import { getHuntInstanceById } from '../../services/serviceRoutes/huntInstanceSe
 
 const HuntDetails = () => {
   const [huntInstance, setHuntInstance] = useState({});
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(true);
   const { huntInstanceId } = useParams();
   const { huntTemplateId } = useParams();
 
@@ -16,13 +16,13 @@ const HuntDetails = () => {
         console.log('trying');
         const response = await getHuntInstanceById(huntTemplateId, huntInstanceId);
         if (response) {
-          console.log(response.data); // Console log the response data
+          console.log(response.data);
           setHuntInstance(response.data.hunt_instance);
-          setLoading(false); // Set loading to false after data is fetched
+          setLoading(false);
         }
       } catch (error) {
         console.error(error);
-        setLoading(false); // Set loading to false in case of an error
+        setLoading(false);
       }
     };
     fetchHuntInstance();
@@ -31,8 +31,11 @@ const HuntDetails = () => {
   const navigate = useNavigate(); 
 
   if (loading) {
-    return <div>Loading...</div>; // Render a loading state while fetching data
+    return <div>Loading...</div>; 
   }
+
+  
+  const startTime = huntInstance.start_time ? new Date(huntInstance.start_time).toLocaleString("en-US") : 'start time';
 
   return (
     <>
@@ -56,7 +59,7 @@ const HuntDetails = () => {
         </Button>
         <Flex direction="column" gap="10px" width="100%" align="center">
           <Text as="label" size="4xl" weight="medium">Start Time</Text>
-          <Text>{huntInstance.start_time || 'start time'}</Text>
+          <Text>{startTime}</Text> {/* Changed to use formatted startTime */}
           <Text as="label" size="4xl" weight="medium">Location</Text>
           <Text>{huntInstance.scavenger_hunt?.location || 'location'}</Text>
         </Flex>

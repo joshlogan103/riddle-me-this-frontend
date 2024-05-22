@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Flex, Text } from "@radix-ui/themes";
+import { Button, Flex, Text, Box, Table } from "@radix-ui/themes";
 import { getAllHuntInstances } from "../../services/serviceRoutes/huntInstanceServices";
 import "./browseHunts.css";
 import { NavLink } from "react-router-dom";
@@ -57,7 +57,7 @@ const BrowseHunts = () => {
       >
         Browse Hunts
       </Text>
-      <Flex direction="row" gap="10px" width="100%" justify="center">
+      <Flex direction="row" className="search-container" width="100%" justify="center">
         <input
           type="text"
           placeholder="Search for hunts..."
@@ -80,36 +80,48 @@ const BrowseHunts = () => {
           Search
         </Button>
       </Flex>
-      <Flex
-        direction="column"
-        gap="10px"
-        width="100%"
-        style={{ marginTop: "20px" }}
-      >
-        {results.length > 0 ? (
-          results.map((result, index) => {
-            const dateObj = new Date(result.start_time);
-            const startTime = dateObj.toLocaleString("en-US");
-            return (
-              <Flex
-                key={index}
-                className="result-item"
-                size="4"
-                style={{ padding: "10px", borderBottom: "1px solid #ccc", justifyContent: "space-around" }}
-              >
-                <NavLink to={`/hunt-details/${result.id}/${result.scavenger_hunt.id}`}>
-                  <div>{result.scavenger_hunt.name}</div>
-                </NavLink>
-                <div>{startTime}</div>
-              </Flex>
-            );
-          })
-        ) : (
-          <Text size="4" color="gray">
-            No results found
-          </Text>
-        )}
-      </Flex>
+      <Box width="100%" mt="20px">
+        <Table.Root>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeaderCell className="table-header-hunts">Hunts</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="table-header-date">Date</Table.ColumnHeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {results.length > 0 ? (
+              results.map((result, index) => {
+                const dateObj = new Date(result.start_time);
+                const startTime = dateObj.toLocaleString("en-US");
+                return (
+                  <Table.Row key={index}>
+                    <Table.RowHeaderCell>
+                      <NavLink
+                        to={`/hunt-details/${result.id}/${result.scavenger_hunt.id}`}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        <Button
+                          variant="surface"
+                          style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                          {result.scavenger_hunt.name}
+                        </Button>
+                      </NavLink>
+                    </Table.RowHeaderCell>
+                    <Table.Cell>{startTime}</Table.Cell>
+                  </Table.Row>
+                );
+              })
+            ) : (
+              <Table.Row>
+                <Table.Cell colSpan="2" style={{ textAlign: 'center' }}>
+                  <Text size="4" color="gray">No results found</Text>
+                </Table.Cell>
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table.Root>
+      </Box>
     </Flex>
   );
 };
