@@ -1,14 +1,15 @@
-import { Avatar, Flex, Separator, Table, Tabs, Text } from "@radix-ui/themes";
+import { Avatar, Flex, Separator, Tabs, Text } from "@radix-ui/themes";
 import React, { useEffect } from "react";
 import { getProfile } from "../../services/serviceRoutes/userServices";
-import { NavLink } from "react-router-dom";
 import ProfileInstancesList from "../../components/ProfileInstancesList/ProfileInstancesList";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 
 const MyProfile = () => {
   useEffect(() => {
-    const fetchUserData = () => {
+    const fetchUserData = async () => {
       try {
-        // const userData = getProfile()
+        const userData = await getProfile();
+        console.log(userData);
       } catch (error) {
         console.error(error);
       }
@@ -17,7 +18,17 @@ const MyProfile = () => {
   }, []);
   return (
     <Flex direction="column" className="" align="center">
-      <Avatar src="" fallback="F" size="8" radius="full" m="6" />
+      <div style={{position: "relative"}}>
+        <Avatar src="" fallback="F" size="8" radius="full" m="6" />
+        <Pencil2Icon style={{
+          position: "absolute",
+          bottom: 40,
+          right: 40,
+          height: "20px",
+          width: "20px",
+          padding: "10px"
+        }}/>
+      </div>
       <Text size="6">Username</Text>
       <Separator orientation="horizontal" m="7" style={{ width: "80%" }} />
       <Tabs.Root defaultValue="upcoming">
@@ -37,5 +48,5 @@ const MyProfile = () => {
     </Flex>
   );
 };
-// name, date
+
 export default MyProfile;
