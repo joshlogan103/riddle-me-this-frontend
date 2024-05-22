@@ -1,5 +1,12 @@
 import { api } from "../apiConnection";
 
+// TODO: Create backend route to fetch ALL hunt instances
+// GET ALL INSTANCES
+export const getAllHuntInstances = async () => {
+  return await api.get(`/hunt-instances/`);
+};
+
+
 // HUNT INSTANCE
 
 export const createHuntInstance = async (huntTemplateId, payload) => {

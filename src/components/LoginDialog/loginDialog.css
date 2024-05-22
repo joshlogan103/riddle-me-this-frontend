@@ -1,0 +1,4 @@
+.toggleLink:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
