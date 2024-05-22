@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useState } from "react";
+import React, { useContext, useReducer, useState, forwardRef } from "react";
 import { Dialog, Flex, Button, TextField, Text } from "@radix-ui/themes";
 import {
   loginUser,
@@ -6,7 +6,7 @@ import {
 } from "../../services/serviceRoutes/userServices";
 import { AuthContext } from "../../contexts/AuthContext";
 
-const LoginDialog = ({ buttonName }) => {
+const LoginDialog = forwardRef(({ buttonName }, ref) => {
   const { loginUserAuth, createUserAuth } = useContext(AuthContext);
   const [registering, setRegistering] = useState(false);
   const toggleRegistering = () => {
@@ -47,7 +47,7 @@ const LoginDialog = ({ buttonName }) => {
         <Button variant="surface">{buttonName}</Button>
       </Dialog.Trigger>
 
-      <Dialog.Content maxWidth="450px">
+      <Dialog.Content ref={ref} maxWidth="450px">
         <Dialog.Title>{registering ? "Create Account" : "Login"}</Dialog.Title>
         <Dialog.Description size="2" mb="4">
           You must login before performing this function
@@ -109,6 +109,6 @@ const LoginDialog = ({ buttonName }) => {
       </Dialog.Content>
     </Dialog.Root>
   );
-};
+});
 
 export default LoginDialog;

@@ -5,19 +5,22 @@ import {
   tokenRefresh,
 } from "../services/serviceRoutes/userServices";
 import { removeToken, setToken } from "../services/apiToken";
+import { useNavigate } from "react-router-dom"; 
 
 export const AuthContext = createContext(null);
 
 export const AuthContextComponent = ({ children }) => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const initializeConext = async () => {
+    const intializeContext = async () => {
       try {
         const isUserValid = await tokenRefresh();
-        if (isUserValid.refresh) {
+        if (isUserValid.status === 200) {
           setIsUserLoggedIn(true);
+          setToken(isUserValid.data.access)
         }
       } catch (error) {
         if (error.response.status === 401) {
@@ -29,24 +32,26 @@ export const AuthContextComponent = ({ children }) => {
         setAuthLoading(false);
       }
     };
-    initializeConext();
+    intializeContext();
   }, []);
 
   const loginUserAuth = async (payload) => {
     try {
       const response = await loginUser(payload);
       if (response.status === 200) {
-        console.log(response.data.access);
         setToken(response.data.access);
         setIsUserLoggedIn(true);
         console.log(
           `successfully logged in user ${response.data.user.username}`
         );
+        console.log("redirect?")
+        navigate("/browse")
       }
-    } catch (error) {
+     } catch (error) {
       console.log(error);
     }
-  };
+  
+}
 
   const createUserAuth = async (payload) => {
     try {
@@ -58,6 +63,7 @@ export const AuthContextComponent = ({ children }) => {
           `successfully registered user ${response.data.user.username}`
         );
       }
+      navigate("/browse")
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +72,7 @@ export const AuthContextComponent = ({ children }) => {
   const logout = () => {
     removeToken();
     setIsUserLoggedIn(false);
+    navigate("/")
   };
 
   return (

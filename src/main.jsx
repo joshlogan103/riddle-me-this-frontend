@@ -10,11 +10,11 @@ import { AuthContextComponent } from "./contexts/AuthContext.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Theme accentColor="indigo" appearance="dark">
-      <AuthContextComponent>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthContextComponent>
           <App />
-        </BrowserRouter>
-      </AuthContextComponent>
+        </AuthContextComponent>
+      </BrowserRouter>
     </Theme>
   </React.StrictMode>
 );
