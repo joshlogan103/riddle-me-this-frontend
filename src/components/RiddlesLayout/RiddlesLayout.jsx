@@ -33,6 +33,9 @@ const RiddlesLayout = () => {
 
   return (
     <div className="riddles-layout">
+      <div className="timer">
+        Timer: {formatTime(timeLeft)}
+      </div>
       <Tabs defaultValue="riddle-0">
         <TabsList className="tabs-list">
           {riddles.slice(0, 5).map((_, index) => (
@@ -58,9 +61,6 @@ const RiddlesLayout = () => {
           </TabsContent>
         ))}
       </Tabs>
-      <div className="timer">
-        Timer: {formatTime(timeLeft)}
-      </div>
     </div>
   );
 };

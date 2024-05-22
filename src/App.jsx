@@ -30,7 +30,6 @@ function App() {
           <Route path="/launch-hunt" element={<LaunchHunt />} />
           <Route path="/profile" element={<MyProfile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/camera" element={<Camera />} />
         </Routes>
       </div>
     </div>
