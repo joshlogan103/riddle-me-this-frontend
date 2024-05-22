@@ -1,24 +1,51 @@
 import { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@radix-ui/react-tabs';
 import Camera from '../Camera/Camera';
+import { getToken } from '../../services/apiToken';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = () => {
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
-  const riddles = [
-    "Riddle text 1 ...",
-    "Riddle text 2 ...",
-    "Riddle text 3 ...",
-    "Riddle text 4 ...",
-    "Riddle text 5 ...",
-    "Riddle text 6 ...",
-    "Riddle text 7 ...",
-    "Riddle text 8 ...",
-    "Riddle text 9 ...",
-    "Riddle text 10 ..."
-  ]; // Example riddles array, this can be dynamically loaded
+  const [riddles, setRiddles] = useState([]); // State to store fetched riddles
 
   useEffect(() => {
+    const token = getToken(); 
+
+    fetch('https://riddle-me-this-e41841fe3e54.herokuapp.com/api/hunt-templates/1/riddle-items/', {
+      headers: {
+        'Authorization': token  
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else if (response.status === 401) {
+        throw new Error('Unauthorized access - please check your credentials');
+      } else {
+        throw new Error('Error fetching data');
+      }
+    })
+
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else if (response.status === 401) {
+      throw new Error('Unauthorized access - please check your credentials');
+    } else {
+      throw new Error('Error fetching data');
+    }
+  })
+  .then(data => {
+    if (Array.isArray(data)) {
+      setRiddles(data.map(item => item.riddle));
+    } else {
+      throw new Error('Data is not in expected format');
+    }
+  })
+  .catch(error => console.error('Error fetching riddles:', error));
+
+
+    // Timer logic
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
     }, 1000);
@@ -38,14 +65,14 @@ const RiddlesLayout = () => {
       </div>
       <Tabs defaultValue="riddle-0">
         <TabsList className="tabs-list">
-          {riddles.slice(0, 5).map((_, index) => (
+          {riddles.slice(0, 5).map((riddle, index) => (
             <TabsTrigger key={`riddle-trigger-${index}`} value={`riddle-${index}`}>
               Riddle {index + 1}
             </TabsTrigger>
           ))}
         </TabsList>
         <TabsList className="tabs-list">
-          {riddles.slice(5, 10).map((_, index) => (
+          {riddles.slice(5).map((riddle, index) => (
             <TabsTrigger key={`riddle-trigger-${index + 5}`} value={`riddle-${index + 5}`}>
               Riddle {index + 6}
             </TabsTrigger>
