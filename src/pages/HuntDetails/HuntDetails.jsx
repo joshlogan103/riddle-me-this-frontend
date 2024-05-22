@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Flex, Text, Box } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom'; 
 import { useParams } from 'react-router-dom';
-import { getHuntInstanceById } from '../../api/huntInstanceApi';
+import { getHuntInstanceById } from '../../services/serviceRoutes/huntInstanceServices';
 
 const HuntDetails = () => {
 
@@ -55,7 +55,7 @@ const HuntDetails = () => {
       </Button>
       <Flex direction="column" gap="10px" width="100%" align="center">
         <Text as="label" size="4xl" weight="medium">Start Time</Text>
-        <Text>{startTime}</Text>
+        <Text>{huntInstance.start_time}</Text>
         <Text as="label" size="4xl" weight="medium">Location</Text>
         <Text>{location}</Text>
       </Flex>
@@ -78,7 +78,7 @@ const HuntDetails = () => {
           e.currentTarget.style.transform = 'scale(1)';
         }}
       >
-        <Text style={{ color: '#4f46e5' }}>{description}</Text>
+        <Text style={{ color: '#4f46e5' }}>{huntInstance.scavenger_hunt.description}</Text>
       </Box>
       <Box
         style={{
@@ -97,14 +97,14 @@ const HuntDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {leaderboardData.map((entry, index) => (
+            {/* {playerList.map((entry, index) => (
               <tr key={index}>
                 <td style={{ borderBottom: '1px solid #ccc', padding: '10px' }}>{entry.rank}</td>
                 <td style={{ borderBottom: '1px solid #ccc', padding: '10px' }}>{entry.player}</td>
                 <td style={{ borderBottom: '1px solid #ccc', padding: '10px' }}>{entry.solved}</td>
                 <td style={{ borderBottom: '1px solid #ccc', padding: '10px' }}>{entry.time}</td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
       </Box>
