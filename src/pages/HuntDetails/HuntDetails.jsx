@@ -2,15 +2,18 @@ import { useState, useEffect } from 'react';
 import { Button, Flex, Text, Box } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom'; 
 import { useParams } from 'react-router-dom';
+import { getHuntInstanceById } from '../../api/huntInstanceApi';
 
 const HuntDetails = () => {
 
   const [huntInstance, setHuntInstance] = useState({});
   const huntInstanceId = useParams().huntInstanceId;
+  const huntTemplateId = useParams().huntTemplateId;
+
   useEffect(() => {
     const fetchHuntInstance = async () => {
       try {
-        const response = await getHuntInstanceById(huntInstanceId);
+        const response = await getHuntInstanceById(huntTemplateId, huntInstanceId);
         if (!response) {
           console.error('Error fetching hunt instance');
           return;
