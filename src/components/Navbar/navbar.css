@@ -1,0 +1,14 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    background-color: black;
+    height: 60px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.menu-root {
+    
+}

@@ -5,13 +5,16 @@ import "./index.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 import { BrowserRouter } from "react-router-dom";
+import { AuthContextComponent } from "./contexts/AuthContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Theme>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+    <Theme accentColor="indigo" appearance="dark">
+      <AuthContextComponent>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthContextComponent>
     </Theme>
   </React.StrictMode>
 );

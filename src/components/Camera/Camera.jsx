@@ -6,6 +6,7 @@ const Camera = () => {
   const webcamRef = useRef(null);
   const [cameraOpen, setCameraOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
+  const [responseMessage, setResponseMessage] = useState(null);
 
   const openCamera = () => {
     setCameraOpen(true);
@@ -18,15 +19,15 @@ const Camera = () => {
 
     try {
       // TEST ON PRODUCTION
-      // const response = await fetch('http://127.0.0.1:8000/api/hunt-templates/1/riddle-items/1/participations/1/riddle-item-submissions/', {
+      const response = await fetch('http://127.0.0.1:8000/api/hunt-templates/1/riddle-items/1/participations/1/riddle-item-submissions/', {
 
       // TEST ON DEPLOYMENT
-      const response = await fetch('https://riddle-me-this-e41841fe3e54.herokuapp.com/api/hunt-templates/1/riddle-items/4/participations/1/riddle-item-submissions/', {
+      // const response = await fetch('https://riddle-me-this-e41841fe3e54.herokuapp.com/api/hunt-templates/1/riddle-items/4/participations/1/riddle-item-submissions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ image: imageSrc, label: "shower_curtain"}),
+        body: JSON.stringify({ image: imageSrc, label: "shower_curtain" }),
       });
 
       if (!response.ok) {
@@ -34,9 +35,11 @@ const Camera = () => {
       }
 
       const data = await response.json();
-      console.log('Response from backend:', data);
+      console.log('Response from backend:', data);  // Add this line to debug the response
+      setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
     } catch (error) {
       console.error('Error sending image to predictions:', error);
+      setResponseMessage('Error sending image to predictions');
     }
   };
 
@@ -66,6 +69,11 @@ const Camera = () => {
           <button className="submit-button" onClick={captureAndSend}>
             Submit
           </button>
+        </div>
+      )}
+      {responseMessage && (
+        <div className="response-message">
+          <p>{responseMessage}</p>
         </div>
       )}
     </div>

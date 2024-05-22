@@ -1,9 +1,37 @@
-import React from 'react'
+import React from "react";
+import { DropdownMenu } from "@radix-ui/themes";
+import { NavLink } from "react-router-dom";
+import "./navbar.css";
+import { Button, Box, Flex } from "@radix-ui/themes";
+import { TextAlignJustifyIcon } from "@radix-ui/react-icons";
 
 const Navbar = () => {
+    
   return (
-    <div>Navbar</div>
-  )
-}
+    <div className="navbar">
+      <DropdownMenu.Root className="menu-root">
+        <DropdownMenu.Trigger>
+          <Button m="3" variant="surface">
+            <TextAlignJustifyIcon />
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Item asChild>
+            <NavLink to="/">Home</NavLink>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
+            <NavLink to="/browse">Browse</NavLink>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
+            <NavLink to="/profile">Profile</NavLink>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
+            <NavLink to="/creator-control-panel">Create</NavLink>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;

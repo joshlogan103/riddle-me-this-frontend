@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from "react";
-import { tokenRefresh } from "../services/serviceRoutes/userServices";
+import { createUser, loginUser, tokenRefresh } from "../services/serviceRoutes/userServices";
 
 export const AuthContext = createContext(null)
 
@@ -23,8 +23,30 @@ export const AuthContextComponent = ({children}) => {
     initializeConext()
   },[])
 
+  const loginUserAuth = async (payload) => {
+    try {
+      const response = await loginUser(payload)
+      if (response.ok) {
+        console.log(`successfully logged in user ${response.data}`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const registerUserAuth = async (payload) => {
+    try {
+      const response = await createUser(payload)
+      if (response.ok) {
+        console.log(`successfully logged in user ${response.data}`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{isUserLoggedIn, setIsUserLoggedIn, authLoading}}>
+    <AuthContext.Provider value={{isUserLoggedIn, setIsUserLoggedIn, authLoading, loginUserAuth}}>
       {children}
     </AuthContext.Provider>
   )
