@@ -1,10 +1,11 @@
-import React, { useContext, useReducer, useState, forwardRef } from "react";
-import { Dialog, Flex, Button, TextField, Text } from "@radix-ui/themes";
+import React, { useContext, useState, forwardRef } from "react";
+import { Dialog, Flex, Button, TextField, Text, Link } from "@radix-ui/themes";
 import {
   loginUser,
   createUser,
 } from "../../services/serviceRoutes/userServices";
 import { AuthContext } from "../../contexts/AuthContext";
+import "./loginDialog.css"
 
 const LoginDialog = forwardRef(({ buttonName }, ref) => {
   const { loginUserAuth, createUserAuth } = useContext(AuthContext);
@@ -104,7 +105,12 @@ const LoginDialog = forwardRef(({ buttonName }, ref) => {
           </Dialog.Close>
         </Flex>
         <p>
-          Need to <a onClick={toggleRegistering}>Create an Account?</a>
+          <Link 
+            onClick={toggleRegistering}
+            className="toggleLink"
+          >
+            {registering ? "Log in instead" : "Create an Account?"}
+          </Link>
         </p>
       </Dialog.Content>
     </Dialog.Root>
