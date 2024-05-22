@@ -72,6 +72,7 @@ export const AuthContextComponent = ({ children }) => {
   const logout = () => {
     removeToken();
     setIsUserLoggedIn(false);
+    navigate("/")
   };
 
   return (

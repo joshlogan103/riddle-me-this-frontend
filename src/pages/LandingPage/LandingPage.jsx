@@ -1,10 +1,12 @@
-import React from "react";
+import { useRef } from "react";
 import "./landingPage.css";
 import { Button, Flex } from "@radix-ui/themes";
 import { NavLink } from "react-router-dom";
 import LoginDialog from "../../components/LoginDialog/LoginDialog";
 
 const LandingPage = () => {
+  const loginDialogRef = useRef(null)
+
   return (
     <div className="page">
       <div>
@@ -18,7 +20,7 @@ const LandingPage = () => {
         <Button variant="surface" asChild>
           <NavLink to="/browse">Browse</NavLink>
         </Button>
-        <LoginDialog buttonName="Login"/>
+        <LoginDialog ref={loginDialogRef} buttonName="Login"/>
       </Flex>
     </div>
   );
