@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './browseHunts.css';
+import { Button, Flex, Text } from '@radix-ui/themes';
 
 const BrowseHunts = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,29 +17,44 @@ const BrowseHunts = () => {
   };
 
   return (
-    <div className="browse-hunts">
-      <div className="search-container">
+    <Flex
+      className="browse-hunts-container"
+      direction="column"
+      gap="20px"
+      align="center"
+      style={{ marginTop: '40px' }} 
+    >
+      <Text as="h1" size="6" weight="bold" color="indigo" variant="soft" highContrast>Browse Hunts</Text>
+      <Flex direction="row" gap="10px" width="100%" justify="center">
         <input
           type="text"
           placeholder="Search for hunts..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="search-input"
+          style={{
+            padding: '10px',
+            fontSize: '16px',
+            flex: '1',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+          }}
         />
-        <button onClick={handleSearch} className="search-button">Search</button>
-      </div>
-      <div className="results">
+        <Button onClick={handleSearch} color="indigo" variant="soft" size="medium">
+          Search
+        </Button>
+      </Flex>
+      <Flex direction="column" gap="10px" width="100%" style={{ marginTop: '20px' }}>
         {results.length > 0 ? (
           results.map((result, index) => (
-            <div key={index} className="result-item">
+            <Text key={index} className="result-item" size="4" style={{ padding: '10px', borderBottom: '1px solid #ccc' }}>
               {result}
-            </div>
+            </Text>
           ))
         ) : (
-          <p>No results found</p>
+          <Text size="4" color="gray">No results found</Text>
         )}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
