@@ -1,40 +1,45 @@
-import React, { useReducer, useState } from "react";
+import React, { useContext, useReducer, useState } from "react";
 import { Dialog, Flex, Button, TextField, Text } from "@radix-ui/themes";
-import { loginUser, createUser } from "../../services/serviceRoutes/userServices";
+import {
+  loginUser,
+  createUser,
+} from "../../services/serviceRoutes/userServices";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const LoginDialog = ({ buttonName }) => {
+  const { loginUserAuth } = useContext(AuthContext);
   const [registering, setRegistering] = useState(false);
   const toggleRegistering = () => {
     setRegistering(!registering);
   };
 
-  const initialState ={
-    email: "",
-    username: "",
-    password: ""
-  }
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [formState, dispatch] = useReducer(formReducer, initialState);
-
-  function formReducer(state, action) {
-    return {
-        ...state,
-        [action.field]: action.payload
-    }
-  }
-  const handleFormChange = (e) => {
-    dispatch({
-        field: e.target.name,
-        payload: e.target.value
-    })
-  }
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
   const handleSubmit = () => {
+    const formState = {
+      username: username,
+      password: password,
+    };
     registering
-    ? createUser(formState)
-    : loginUser(formState)
-  }
-
+      ? createUser({
+          ...formState,
+          email: email,
+        })
+      : loginUserAuth(formState);
+    console.log(formState);
+  };
 
   return (
     <Dialog.Root>
@@ -57,8 +62,8 @@ const LoginDialog = ({ buttonName }) => {
               <TextField.Root
                 placeholder="Enter username"
                 name="email"
-                value={formState.email}
-                onChange={(e) => handleFormChange(e)}
+                value={email}
+                onChange={(e) => handleEmail(e)}
               />
             </label>
           ) : null}
@@ -69,8 +74,8 @@ const LoginDialog = ({ buttonName }) => {
             <TextField.Root
               placeholder="Enter username"
               name="username"
-              value={formState.username}
-              onChange={(e) => handleFormChange(e)}
+              value={username}
+              onChange={(e) => handleUsername(e)}
             />
           </label>
           <label>
@@ -81,8 +86,8 @@ const LoginDialog = ({ buttonName }) => {
               placeholder="password"
               type="password"
               name="password"
-              value={formState.password}
-              onChange={(e) => handleFormChange(e)}
+              value={password}
+              onChange={(e) => handlePassword(e)}
             />
           </label>
         </Flex>
@@ -93,7 +98,9 @@ const LoginDialog = ({ buttonName }) => {
             </Button>
           </Dialog.Close>
           <Dialog.Close>
-            <Button variant="surface" onClick={handleSubmit}>Submit</Button>
+            <Button variant="surface" onClick={handleSubmit}>
+              Submit
+            </Button>
           </Dialog.Close>
         </Flex>
         <p>
