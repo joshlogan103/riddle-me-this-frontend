@@ -22,6 +22,6 @@ export const tokenRefresh = async () => {
 
 // PROFILE
 
-export const getProfile = async (userId, profileId) => {
-    return await api.get(`/users/${userId}/profiles/${profileId}/`)
+export const getProfile = async () => {
+    return await api.get(`/profiles/`)
 }
