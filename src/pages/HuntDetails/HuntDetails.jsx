@@ -4,15 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 const HuntDetails = () => {
-  const huntInstanceName = "Midnight Hunt at the Park";
-  const startTime = "June 24, 2024, 8:00 PM";
-  const location = "Central Park, NY";
-  const description = "Join us for an exciting midnight hunt at Central Park. Solve riddles, find clues, and enjoy a thrilling adventure with friends!";
-  const leaderboardData = [
-    { rank: 1, player: "User1", solved: 10, time: "2:00 a.m." },
-    { rank: 2, player: "User2", solved: 8, time: "2:30 a.m." },
-    { rank: 3, player: "User3", solved: 7, time: "2:34 a.m." },
-  ];
 
   const [huntInstance, setHuntInstance] = useState({});
   const huntInstanceId = useParams().huntInstanceId;
@@ -49,7 +40,7 @@ const HuntDetails = () => {
       style={{ marginTop: '40px' }}
     >
       <Text as="h1" size="6" weight="bold" color="indigo" variant="soft" highContrast>
-        {huntInstanceName}
+        {huntInstance.scavenger_hunt.name}
       </Text>
       <Button 
         color="indigo" 
