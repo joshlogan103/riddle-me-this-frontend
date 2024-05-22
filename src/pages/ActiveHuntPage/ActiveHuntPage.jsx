@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
-import { Button } from "@radix-ui/themes";
+import RiddlesLayout from "../../components/RiddlesLayout/RiddlesLayout";
 import "./activeHuntPage.css";
 
 const PreGameView = () => {
-  // const [timeLeft, setTimeLeft] = useState(900); // 15 minutes in seconds
-  const [timeLeft, setTimeLeft] = useState(60); 
+  const [timeLeft, setTimeLeft] = useState(5); // 5 seconds
+  const [showNewContent, setShowNewContent] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          setShowNewContent(true);
+          return 0;
+        }
+        return prevTime - 1;
+      });
     }, 1000);
+
     return () => clearInterval(timer);
   }, []);
 
@@ -21,15 +29,17 @@ const PreGameView = () => {
 
   return (
     <div className="pregame-container">
-      <div className="header">
-        {/* <NavLink to="/browse">Browse</NavLink> */}
-      </div>
-      <div className="content">
-        <p className="timer">{formatTime(timeLeft)} until Game Start</p>
-        {timeLeft === 0 && (
-          <Button variant="surface" className="start-button">START</Button>
-        )}
-      </div>
+      {!showNewContent ? (
+        <>
+          <div className="header">
+          </div>
+          <div className="content">
+            <p className="timer">{formatTime(timeLeft)} until the hunt begins</p>
+            </div>
+        </>
+      ) : (
+        <RiddlesLayout />
+      )}
     </div>
   );
 };
