@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Flex, Text } from "@radix-ui/themes";
+import { Button, Flex, Text } from "@radix-ui/themes";
 import { getAllHuntInstances } from "../../services/serviceRoutes/huntInstanceServices";
 import "./browseHunts.css";
+import { NavLink } from "react-router-dom";
 
 const BrowseHunts = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -94,9 +95,11 @@ const BrowseHunts = () => {
                 key={index}
                 className="result-item"
                 size="4"
-                style={{ padding: "10px", borderBottom: "1px solid #ccc" }}
+                style={{ padding: "10px", borderBottom: "1px solid #ccc", justifyContent: "space-around" }}
               >
-                <div>{result.id}</div>
+                <NavLink to={`/hunt-detail/${result.id}`}>
+                  <div>{result.scavenger_hunt.name}</div>
+                </NavLink>
                 <div>{startTime}</div>
               </Flex>
             );

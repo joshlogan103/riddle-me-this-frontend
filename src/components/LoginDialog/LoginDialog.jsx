@@ -1,9 +1,5 @@
 import React, { useContext, useState, forwardRef } from "react";
 import { Dialog, Flex, Button, TextField, Text, Link } from "@radix-ui/themes";
-import {
-  loginUser,
-  createUser,
-} from "../../services/serviceRoutes/userServices";
 import { AuthContext } from "../../contexts/AuthContext";
 import "./loginDialog.css"
 
