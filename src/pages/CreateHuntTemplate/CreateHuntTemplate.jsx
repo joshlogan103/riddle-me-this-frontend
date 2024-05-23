@@ -52,8 +52,8 @@ const CreateHuntTemplate = () => {
         style={{ width: '100%', maxWidth: '500px', padding: '10px', margin: '10px 0', borderRadius: '4px', border: '1px solid #ccc' }}
       />
       {categories.map((catItem, index) => (
-        <Flex key={index} direction="column" gap="10px" style={{ width: '100%', maxWidth: '500px' }}>
-          <Flex direction="row" gap="10px" style={{ justifyContent: 'space-between' }}>
+        <Flex key={index} direction="column" gap="10px" style={{ width: '100%', maxWidth: '500px', padding: '10px' }}>
+          <Flex direction="row" gap="10px" align="center" style={{ justifyContent: 'space-between' }}>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
                 <Button variant="surface" style={{ width: '48%' }}>
@@ -61,7 +61,6 @@ const CreateHuntTemplate = () => {
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>
-                {/* Example categories; replace with IMAGENET categories */}
                 {['Category1', 'Category2', 'Category3'].map((category, catIndex) => (
                   <DropdownMenu.Item key={catIndex} onSelect={() => handleCategoryChange(index, category)}>
                     {category}
@@ -76,7 +75,6 @@ const CreateHuntTemplate = () => {
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>
-                {/* Example items; replace with items from selected category */}
                 {['Item1', 'Item2', 'Item3'].map((item, itemIndex) => (
                   <DropdownMenu.Item key={itemIndex} onSelect={() => handleItemChange(index, item)}>
                     {item}
@@ -94,15 +92,25 @@ const CreateHuntTemplate = () => {
           />
         </Flex>
       ))}
-      <Button onClick={addCategoryItemPair} variant="soft" style={{ width: '100%', maxWidth: '500px', cursor: 'default' }}>
+      <Button onClick={addCategoryItemPair} variant="soft" style={{ width: '100%', maxWidth: '500px', cursor: 'default', transition: 'none' }}>
         Add Category & Item
       </Button>
-      <Button onClick={saveHunt} variant="surface" style={{ width: '100%', maxWidth: '500px', transition: 'transform 0.2s', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+      <Button 
+        onClick={saveHunt} 
+        variant="surface" 
+        style={{ 
+          width: '100%', 
+          maxWidth: '500px', 
+          transition: 'transform 0.2s, background-color 0.2s', 
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' 
+        }}
         onMouseOver={(e) => {
           e.currentTarget.style.transform = 'scale(1.05)';
+          e.currentTarget.style.backgroundColor = '#4B0082'; // example color, adjust to your theme
         }}
         onMouseOut={(e) => {
           e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.backgroundColor = ''; // reset to default
         }}
       >
         Create Scavenger Hunt
