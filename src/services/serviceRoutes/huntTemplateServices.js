@@ -2,8 +2,8 @@ import { api } from "../apiConnection";
 
 // GET ALL HUNT TEMPLATES FOR A USER
 
-export const getHuntTemplatesByUser = async (userId) => {
-  return await api.get(`/users/${userId}/hunt-templates/`);
+export const getHuntTemplatesByUser = async () => {
+  return await api.get(`/hunt-templates/`);
 }
 
 // CREATE NEW HUNT TEMPLATTE
