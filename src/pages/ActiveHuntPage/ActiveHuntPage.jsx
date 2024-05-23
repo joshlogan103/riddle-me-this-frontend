@@ -21,7 +21,6 @@ const ActiveHunt = () => {
         }
       } catch (error) {
         console.error('Error fetching start time:', error);
-        // setTimeLeft(0);  
       }
     };
 

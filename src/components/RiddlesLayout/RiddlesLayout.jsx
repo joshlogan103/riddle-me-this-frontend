@@ -88,4 +88,3 @@ const RiddlesLayout = () => {
 
 export default RiddlesLayout;
 
-// TODO: once the game is over, the user should be redirected to the hunt details page
