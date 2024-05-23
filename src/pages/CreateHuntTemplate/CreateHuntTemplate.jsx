@@ -1,35 +1,71 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, TextArea, Button, Flex, Text, DropdownMenu } from '@radix-ui/themes';
+import { getAllItems } from '../../services/serviceRoutes/itemServices';
 
 const CreateHuntTemplate = () => {
-  const [categories, setCategories] = useState([{ category: '', item: '', riddle: '' }]);
+  const [selection, setSelection] = useState({category: "", item: "", id: 0, riddle: ""})
+  const [categories, setCategories] = useState([]);
+  const [savedItems, setSavedItems] = useState([])
   const [huntName, setHuntName] = useState('');
   const [description, setDescription] = useState('');
+  const [ items, setItems ] = useState([])
+  const [ filteredItems, setFilteredItems ] = useState([])
+
+  useEffect(() => {
+    // TODO: connect to fetch all items
+    const fetchAllItems = async () => {
+      const response = await getAllItems()
+      if (response.status === 200) {
+        setItems(response.data)
+        console.log(response.data)
+        const categoriesList = []
+        response.data.map((item) => {
+          if (!categoriesList.includes(item.category)) {
+            categoriesList.push(item.category)
+          }
+        })
+        // console.log(categoriesList)
+        setCategories(categoriesList)
+      }
+    }
+    fetchAllItems()
+  }, [])
+
+
 
   const addCategoryItemPair = () => {
+    // TODO: connect to api riddle item service
     setCategories([...categories, { category: '', item: '', riddle: '' }]);
   };
 
-  const handleCategoryChange = (index, value) => {
-    const newCategories = [...categories];
-    newCategories[index].category = value;
-    setCategories(newCategories);
+  const filterItems = (newCat) => {
+    const filtered = items.filter(item => {
+      // console.log(selection.category)
+      return item.category === newCat
+    })
+    setFilteredItems(filtered)
+    console.log(filtered)
+  }
+
+  const handleCategoryChange = (value) => {
+    const newSelection = {...selection, category: value}
+    setSelection(newSelection)
+    console.log(newSelection)
+    filterItems(value)
   };
 
-  const handleItemChange = (index, value) => {
-    const newCategories = [...categories];
-    newCategories[index].item = value;
-    setCategories(newCategories);
+  const handleItemChange = (name, id) => {
+    const newSelection = {...selection, item: name, id: id}
+    setSelection(newSelection)
   };
 
-  const handleRiddleChange = (index, value) => {
-    const newCategories = [...categories];
-    newCategories[index].riddle = value;
-    setCategories(newCategories);
+  const handleRiddleChange = (value) => {
+    const newSelection = {...selection, riddle: value}
+    setSelection(newSelection)
   };
 
   const saveHunt = () => {
-    // Logic to save the scavenger hunt
+    // TODO: Create Hunt API
     console.log('Saving hunt', { huntName, description, categories });
   };
 
@@ -53,18 +89,18 @@ const CreateHuntTemplate = () => {
         onChange={(e) => setDescription(e.target.value)}
         style={{width: '300px', height: '50px'}}
         />
-      {categories.map((catItem, index) => (
-        <Flex key={index} direction="column" gap="10px" style={{ width: '100%', maxWidth: '500px', padding: '10px' }}>
+
+        <Flex direction="column" gap="10px" style={{ width: '100%', maxWidth: '500px', padding: '10px' }}>
           <Flex direction="row" gap="10px" align="center" style={{ justifyContent: 'space-between' }}>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
                 <Button variant="surface" style={{ width: '48%' }}>
-                  {catItem.category || 'Select Category'}
+                  {selection?.category || 'Select Category'}
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>
-                {['Category1', 'Category2', 'Category3'].map((category, catIndex) => (
-                  <DropdownMenu.Item key={catIndex} onSelect={() => handleCategoryChange(index, category)}>
+                {categories.map((category, idx) => (
+                  <DropdownMenu.Item key={idx} onSelect={() => handleCategoryChange(category)}>
                     {category}
                   </DropdownMenu.Item>
                 ))}
@@ -73,13 +109,13 @@ const CreateHuntTemplate = () => {
             <DropdownMenu.Root>
               <DropdownMenu.Trigger>
                 <Button variant="surface" style={{ width: '48%' }}>
-                  {catItem.item || 'Select Item'}
+                  {selection.item || 'Select Item'}
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>
-                {['Item1', 'Item2', 'Item3'].map((item, itemIndex) => (
-                  <DropdownMenu.Item key={itemIndex} onSelect={() => handleItemChange(index, item)}>
-                    {item}
+                {filteredItems.map((item, idx) => (
+                  <DropdownMenu.Item key={idx} onSelect={() => handleItemChange(item.name, item.id)}>
+                    {item.name}
                   </DropdownMenu.Item>
                 ))}
               </DropdownMenu.Content>
@@ -88,12 +124,12 @@ const CreateHuntTemplate = () => {
           <input
             type="text"
             placeholder="Riddle"
-            value={catItem.riddle}
-            onChange={(e) => handleRiddleChange(index, e.target.value)}
+            value={selection.riddle}
+            onChange={(e) => handleRiddleChange(e.target.value)}
             style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
           />
         </Flex>
-      ))}
+
       <Button onClick={addCategoryItemPair} variant="soft" style={{ width: '100%', maxWidth: '500px', cursor: 'default', transition: 'none' }}>
         Add Category & Item
       </Button>
