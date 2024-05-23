@@ -10,7 +10,8 @@ const RiddlesLayout = () => {
   const [timeLeft, setTimeLeft] = useState(3600);
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("tab1");  // Initialize with the default value
+  const [activeTab, setActiveTab] = useState("");
+  const [riddleSelected, setRiddleSelected] = useState({})
   const { huntTemplateId } = useParams();
 
   useEffect(() => {
@@ -39,7 +40,12 @@ const RiddlesLayout = () => {
     };
   }, [huntTemplateId]);
 
-  const handleTabChange = (value) => {
+  useEffect(() => {
+    const index = parseInt(activeTab.replace('tab', '')) - 1
+    setRiddleSelected(riddles[index])
+  },[riddles, activeTab])
+
+  const handleTabChange = async (value) => {
     setActiveTab(value);
   };
 
@@ -75,7 +81,7 @@ const RiddlesLayout = () => {
       ) : (
         <p>No riddles available</p>
       )}
-      <Camera riddles={riddles}/>
+      <Camera riddle={riddleSelected}/>
     </div>
   );
 };

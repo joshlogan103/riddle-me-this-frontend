@@ -38,21 +38,21 @@ const CreateHuntTemplate = () => {
       <Text as="h1" size="6" weight="bold" color="indigo" variant="soft">
         Create a Scavenger Hunt
       </Text>
-      <TextField.Root 
+      <TextField.Root
         type="text"
         placeholder="Hunt Name"
         value={huntName}
         onChange={(e) => setHuntName(e.target.value)}
-        style={{width: '300px'}}
-        >
-        <TextField.Slot/>
+        style={{ width: '300px' }}
+      >
+        <TextField.Slot />
       </TextField.Root>
       <TextArea
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        style={{width: '300px', height: '50px'}}
-        />
+        style={{ width: '300px', height: '80px' }}
+      />
       {categories.map((catItem, index) => (
         <Flex key={index} direction="column" gap="10px" style={{ width: '100%', maxWidth: '500px', padding: '10px' }}>
           <Flex direction="row" gap="10px" align="center" style={{ justifyContent: 'space-between' }}>
@@ -85,26 +85,28 @@ const CreateHuntTemplate = () => {
               </DropdownMenu.Content>
             </DropdownMenu.Root>
           </Flex>
-          <input
+          <TextField.Root
             type="text"
             placeholder="Riddle"
             value={catItem.riddle}
             onChange={(e) => handleRiddleChange(index, e.target.value)}
-            style={{ width: '100%', padding: '10px', borderRadius: '4px', border: '1px solid #ccc' }}
-          />
+            style={{ width: '300px' }}
+          >
+            <TextField.Slot />
+          </TextField.Root>
         </Flex>
       ))}
       <Button onClick={addCategoryItemPair} variant="soft" style={{ width: '100%', maxWidth: '500px', cursor: 'default', transition: 'none' }}>
         Add Category & Item
       </Button>
-      <Button 
-        onClick={saveHunt} 
-        variant="surface" 
-        style={{ 
-          width: '100%', 
-          maxWidth: '500px', 
-          transition: 'transform 0.2s, background-color 0.2s', 
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' 
+      <Button
+        onClick={saveHunt}
+        variant="surface"
+        style={{
+          width: '100%',
+          maxWidth: '500px',
+          transition: 'transform 0.2s, background-color 0.2s',
+          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
         }}
         onMouseOver={(e) => {
           e.currentTarget.style.transform = 'scale(1.05)';
@@ -112,7 +114,7 @@ const CreateHuntTemplate = () => {
         }}
         onMouseOut={(e) => {
           e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.backgroundColor = ''; 
+          e.currentTarget.style.backgroundColor = '';
         }}
       >
         Create Scavenger Hunt

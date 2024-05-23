@@ -1,5 +1,9 @@
 import { api } from "../apiConnection";
 
+export const getPartByProfileAndHuntInstance = async (profileId, huntId) => {
+  return await api.get(`/profiles/${profileId}/hunt-instance/${huntId}/participations/`);
+};
+
 export const getPartByProfile = async (profileId) => {
   return await api.get(`/profiles/${profileId}/participations/`);
 };
