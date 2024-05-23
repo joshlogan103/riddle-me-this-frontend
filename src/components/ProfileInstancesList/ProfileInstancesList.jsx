@@ -14,7 +14,7 @@ const ProfileInstancesList = ({ participations }) => {
       </Table.Header>
       <Table.Body>
         {!participations.length ? (
-          <Text>No records to Show</Text>
+          <Table.Row><Table.Cell colSpan="3">No records to Show</Table.Cell></Table.Row>
         ) : (
           participations.map((game, idx) => {
             const dateObj = new Date(game.hunt_instance.end_time);

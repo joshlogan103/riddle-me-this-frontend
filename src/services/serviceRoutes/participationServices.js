@@ -14,7 +14,7 @@ export const getPartByHuntInst = async (huntId) => {
 
 export const createParticipation = async (profileId, huntInstId, payload) => {
   return await api.post(
-    `/profiles/${profileId}/hunt-instance/${huntInstId}/participations/`,
+    `/profiles/${profileId}/hunt-instance/${huntInstId}/participations/create/`,
     payload,
     {
       headers: {
