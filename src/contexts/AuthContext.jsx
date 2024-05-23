@@ -17,10 +17,12 @@ export const AuthContextComponent = ({ children }) => {
   useEffect(() => {
     const intializeContext = async () => {
       try {
-        const isUserValid = await tokenRefresh();
-        if (isUserValid.status === 200) {
-          setIsUserLoggedIn(true);
-          setToken(isUserValid.data.access);
+        if (isUserLoggedIn) {
+          const isUserValid = await tokenRefresh();
+          if (isUserValid.status === 200) {
+            setIsUserLoggedIn(true);
+            setToken(isUserValid.data.access);
+          }
         }
       } catch (error) {
         if (error.response.status === 401) {
