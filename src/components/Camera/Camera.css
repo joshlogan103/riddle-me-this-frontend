@@ -3,11 +3,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 52vh;
+  height: 40vh;
   padding: 20px;
   box-sizing: border-box;
-  /* background-color: rgb(34, 62, 200, 0.2); */
-  border: 1px solid rgb(34, 62, 200, 1);
   border-radius: 7px;
 }
 
@@ -20,16 +18,21 @@
 
 .webcam, .captured-image {
   max-width: 100%;
-  height: auto;
+  height: 40vh;
+  background-color: rgba(34, 62, 200, 0.1);
+  border: 1px solid rgb(34, 62, 200);
 }
 
 .icon-button {
   background: none;
-  border: none;
   cursor: pointer;
   padding: 10px;
-  border-radius: 50%;
   transition: background 0.3s;
+  background-color: rgba(34, 62, 200, 0.1);
+  border: 1px solid rgb(34, 62, 200);
+  border-radius: 7px;
+  padding: 5px 10px;
+  margin: 10px;
 }
 
 .icon-button:hover {
@@ -53,3 +56,5 @@
   border-radius: 7px;
   padding: 5px 10px;
 }
+
+
