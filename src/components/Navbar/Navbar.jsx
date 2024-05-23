@@ -1,3 +1,4 @@
+// components/Navbar/Navbar.jsx
 import React, { useContext, useRef } from "react";
 import { DropdownMenu } from "@radix-ui/themes";
 import { NavLink } from "react-router-dom";
@@ -6,12 +7,14 @@ import { Button, Box, Flex } from "@radix-ui/themes";
 import { TextAlignJustifyIcon } from "@radix-ui/react-icons";
 import { AuthContext } from "../../contexts/AuthContext";
 import LoginDialog from "../LoginDialog/LoginDialog";
+import Logo from "../Logo/Logo"; 
 
 const Navbar = () => {
   const { logout, isUserLoggedIn } = useContext(AuthContext);
   const loginDialogRef = useRef(null);
   return (
     <div className="navbar">
+      <Logo /> {/* Add the Logo component */}
       <DropdownMenu.Root className="menu-root">
         <DropdownMenu.Trigger>
           <Button m="3" variant="surface">
