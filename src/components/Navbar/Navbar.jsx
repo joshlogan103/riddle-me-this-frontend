@@ -1,4 +1,3 @@
-// components/Navbar/Navbar.jsx
 import React, { useContext, useRef } from "react";
 import { DropdownMenu } from "@radix-ui/themes";
 import { NavLink } from "react-router-dom";
