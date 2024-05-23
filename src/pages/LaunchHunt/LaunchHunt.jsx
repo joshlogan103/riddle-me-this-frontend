@@ -8,7 +8,7 @@ const LaunchHunt = () => {
       direction="column"
       gap="20px"
       align="center"
-      style={{ marginTop: '40px', width: '90%', maxWidth: '300px', margin: '0 auto' }}
+      style={{ marginTop: '30px', width: '90%', maxWidth: '300px', margin: '0 auto' }}
     >
       <Text as="h1" size="6" weight="bold" color="indigo" variant="soft" highContrast textAlign="center">
         Launch a Hunt
