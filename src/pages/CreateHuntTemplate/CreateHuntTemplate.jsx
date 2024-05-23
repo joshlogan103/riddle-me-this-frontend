@@ -106,11 +106,11 @@ const CreateHuntTemplate = () => {
         }}
         onMouseOver={(e) => {
           e.currentTarget.style.transform = 'scale(1.05)';
-          e.currentTarget.style.backgroundColor = '#4B0082'; // example color, adjust to your theme
+          e.currentTarget.style.backgroundColor = '#4B0082';
         }}
         onMouseOut={(e) => {
           e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.backgroundColor = ''; // reset to default
+          e.currentTarget.style.backgroundColor = ''; 
         }}
       >
         Create Scavenger Hunt
