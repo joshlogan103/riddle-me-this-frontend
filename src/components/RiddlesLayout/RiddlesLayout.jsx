@@ -1,21 +1,19 @@
 import { useState, useEffect } from 'react';
 import { getRiddleItemsByTemplate } from '../../services/serviceRoutes/riddleItemServices';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router';
 import * as Tabs from '@radix-ui/react-tabs';
 import Loading from '../Loading/Loading';
 import Camera from '../Camera/Camera';
+import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = () => {
-  const [timeLeft, setTimeLeft] = useState(1000);
+  const [timeLeft, setTimeLeft] = useState(3600);
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("");
-  const [riddleSelected, setRiddleSelected] = useState({});
-  const [showDialog, setShowDialog] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const [riddleSelected, setRiddleSelected] = useState({})
   const { huntTemplateId } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchResponse = async () => {
@@ -30,38 +28,26 @@ const RiddlesLayout = () => {
       } catch (error) {
         console.error(error);
         setLoading(false);
+        // Optionally update the UI to show an error message
       }
     };
     fetchResponse();
     const timer = setInterval(() => {
-      setTimeLeft(prevTime => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          setShowDialog(true);
-          setDisabled(true);
-          return 0;
-        }
-        return prevTime - 1;
-      });
+      setTimeLeft(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+    };
   }, [huntTemplateId]);
 
   useEffect(() => {
-    const index = parseInt(activeTab.replace('tab', '')) - 1;
-    setRiddleSelected(riddles[index]);
-  }, [riddles, activeTab]);
+    const index = parseInt(activeTab.replace('tab', '')) - 1
+    setRiddleSelected(riddles[index])
+  },[riddles, activeTab])
 
-  const handleTabChange = (value) => {
-    if (!disabled) {
-      setActiveTab(value);
-    }
-  };
-
-  const closeDialog = () => {
-    setShowDialog(false);
-    navigate('http://localhost/'); // Adjust this path to the route you want to navigate to
+  const handleTabChange = async (value) => {
+    setActiveTab(value);
   };
 
   if (loading) {
@@ -76,39 +62,33 @@ const RiddlesLayout = () => {
       <p className="time-left">Time Left: {`${minutes}m ${seconds}s`}</p>
       {riddles.length > 0 ? (
         <Tabs.Root value={activeTab} onValueChange={handleTabChange} className="riddles-container">
-          <Tabs.List className="riddles-list">
-            {riddles.map((riddle, index) => (
-              <Tabs.Trigger
-                key={index}
-                value={`tab${index + 1}`}
-                className={`riddles-tab ${activeTab === `tab${index + 1}` ? 'active-tab' : ''}`}
-                disabled={disabled}>
-                Riddle {index + 1}
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
+        <Tabs.List className="riddles-list">
           {riddles.map((riddle, index) => (
-            <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
-              <p>{riddle.riddle}</p>
-            </Tabs.Content>
+            <Tabs.Trigger 
+              key={index} 
+              value={`tab${index + 1}`} 
+              className={`riddles-tab ${activeTab === `tab${index + 1}` ? 'active-tab' : ''}`}>
+              Riddle {index + 1}
+            </Tabs.Trigger>
           ))}
-        </Tabs.Root>
+        </Tabs.List>
+        {riddles.map((riddle, index) => (
+          <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
+             <Card className="riddle-card" variant="surface" padding="20px" marginTop="20px" borderRadius="8px" border="1px solid var(--color-surface)">
+                <Text size="4" weight="medium" textAlign="center">{riddle.riddle}</Text>
+              </Card>
+          </Tabs.Content>
+        ))}
+      </Tabs.Root>
+      
       ) : (
         <p>No riddles available</p>
       )}
-      <Camera riddle={riddleSelected} />
-
-      {showDialog && (
-        <div className="dialog-overlay">
-          <div className="dialog-content">
-            <p>Time is up!</p>
-            <p>Here are your results</p>
-            <button onClick={closeDialog} disabled={disabled}>Return to hunts</button>
-          </div>
-        </div>
-      )}
+      <Camera riddle={riddleSelected}/>
     </div>
   );
 };
 
 export default RiddlesLayout;
+
+// TODO: once the game is over, the user should be redirected to the hunt details page
