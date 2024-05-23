@@ -1,0 +1,19 @@
+
+
+.table-header-hunts {
+  padding-left: 20px; 
+  text-align: center;
+}
+
+.table-header-date {
+  padding-left: 40px; 
+  text-align: center;
+}
+
+.browse-hunts-container {
+  padding: 10px; 
+}
+
+.search-container {
+  gap: 10px;
+}
