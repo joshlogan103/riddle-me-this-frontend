@@ -31,3 +31,9 @@
   border-radius: 7px;
   padding: 5px 10px;
 }
+
+.active-tab {
+  background-color: rgb(34, 62, 200); 
+  border-color: rgb(34, 62, 200); 
+  color: white;
+}
