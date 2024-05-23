@@ -39,8 +39,19 @@ const CreatorControlPanel = () => {
     <>
       <Flex align='center' justify='center' wrap='wrap' style={{marginTop: '20px'}} direction='column'>
         <Text style={{fontSize: '24px', marginBottom: '40px'}}>Creator Control Panel</Text>
-        <Button onClick={handleClick} style={{marginBottom:'40px'}}>Create New</Button>
-          <HuntTemplateEntry hunts={huntTemplates} />
+        <Button 
+          onClick={handleClick} 
+          variant="surface" 
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#475569';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#1E293B';
+          }}
+        >
+          Create New Hunt
+        </Button>
+        <HuntTemplateEntry hunts={huntTemplates} />
       </Flex>
     </>
   )

@@ -10,7 +10,8 @@ const RiddlesLayout = () => {
   const [timeLeft, setTimeLeft] = useState(3600);
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [activeTab, setActiveTab] = useState("");
+  const [riddleSelected, setRiddleSelected] = useState({})
   const { huntTemplateId } = useParams();
 
   useEffect(() => {
@@ -20,10 +21,13 @@ const RiddlesLayout = () => {
         if (response.status === 200) {
           setRiddles(response.data);
           setLoading(false);
+        } else {
+          throw new Error('Failed to fetch riddles');
         }
       } catch (error) {
         console.error(error);
         setLoading(false);
+        // Optionally update the UI to show an error message
       }
     };
     fetchResponse();
@@ -31,8 +35,19 @@ const RiddlesLayout = () => {
       setTimeLeft(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+    };
   }, [huntTemplateId]);
+
+  useEffect(() => {
+    const index = parseInt(activeTab.replace('tab', '')) - 1
+    setRiddleSelected(riddles[index])
+  },[riddles, activeTab])
+
+  const handleTabChange = async (value) => {
+    setActiveTab(value);
+  };
 
   if (loading) {
     return <Loading />;
@@ -45,26 +60,32 @@ const RiddlesLayout = () => {
     <div>
       <p className="time-left">Time Left: {`${minutes}m ${seconds}s`}</p>
       {riddles.length > 0 ? (
-        <Tabs.Root defaultValue="tab1" className="riddles-container">
-          <Tabs.List className="riddles-list">
-            {riddles.map((riddle, index) => (
-              <Tabs.Trigger key={index} value={`tab${index + 1}`} className='riddles-tab'>
-                Riddle {index + 1}
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
+        <Tabs.Root value={activeTab} onValueChange={handleTabChange} className="riddles-container">
+        <Tabs.List className="riddles-list">
           {riddles.map((riddle, index) => (
-            <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
-              <p>{riddle.riddle}</p>
-            </Tabs.Content>
+            <Tabs.Trigger 
+              key={index} 
+              value={`tab${index + 1}`} 
+              className={`riddles-tab ${activeTab === `tab${index + 1}` ? 'active-tab' : ''}`}>
+              Riddle {index + 1}
+            </Tabs.Trigger>
           ))}
-        </Tabs.Root>
+        </Tabs.List>
+        {riddles.map((riddle, index) => (
+          <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
+            <p>{riddle.riddle}</p>
+          </Tabs.Content>
+        ))}
+      </Tabs.Root>
+      
       ) : (
         <p>No riddles available</p>
       )}
-      <Camera />
+      <Camera riddle={riddleSelected}/>
     </div>
   );
 };
 
 export default RiddlesLayout;
+
+// TODO: once the game is over, the user should be redirected to the hunt details page
