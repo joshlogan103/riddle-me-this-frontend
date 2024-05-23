@@ -21,13 +21,12 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />}/>
           <Route path="/browse" element={<BrowseHunts />} />
-          <Route path="/active-hunt/:huntTemplateId/:huntInstanceId/:participationId" element={<ActiveHuntPage />} />
-          <Route path="/create-hunt" element={<CreateHuntTemplate />} />
-          <Route path="/creator-control-panel" element={<CreatorControlPanel />} />
-          <Route path="/hunt-details/:huntInstanceId/:huntTemplateId" element={<HuntDetails />} />
-          <Route path="/launch-hunt" element={<LaunchHunt />} />
-          <Route path="/profile" element={<MyProfile />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/active-hunt/:huntTemplateId/:huntInstanceId/:participationId" element={<ProtectedRoutes><ActiveHuntPage /></ProtectedRoutes>} />
+          <Route path="/create-hunt" element={<ProtectedRoutes><CreateHuntTemplate /></ProtectedRoutes>} />
+          <Route path="/creator-control-panel" element={<ProtectedRoutes><CreatorControlPanel /></ProtectedRoutes>} />
+          <Route path="/hunt-details/:huntInstanceId/:huntTemplateId" element={<ProtectedRoutes><HuntDetails /></ProtectedRoutes>} />
+          <Route path="/launch-hunt" element={<ProtectedRoutes><LaunchHunt /></ProtectedRoutes>} />
+          <Route path="/profile" element={<ProtectedRoutes><MyProfile /></ProtectedRoutes>} />
         </Routes>
       </div>
     </div>
