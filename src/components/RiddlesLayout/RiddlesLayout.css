@@ -31,3 +31,16 @@
   border-radius: 7px;
   padding: 5px 10px;
 }
+
+.riddles-tab:hover {
+  background-color: rgba(34, 62, 200, 0.4);
+  border-color: rgba(34, 62, 200); 
+  color: white; 
+}
+
+
+.active-tab {
+  background-color: rgb(34, 62, 200); 
+  border-color: rgb(34, 62, 200); 
+  color: white;
+}

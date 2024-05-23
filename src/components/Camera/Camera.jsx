@@ -2,12 +2,19 @@ import { useRef, useState } from 'react';
 import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
 import './Camera.css';
+import { createRiddleItemSubmission } from '../../services/serviceRoutes/riddleItemSubmissionsServices';
 
-const Camera = () => {
+const Camera = (props) => {
+  const { riddles } = props;
   const webcamRef = useRef(null);
   const [cameraOpen, setCameraOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
+  const [videoConstraints, setVideoConstraints] = useState({
+    width: 1280,
+    height: 720,
+    facingMode: "environment"  // Attempt to use the rear camera on devices
+  });
 
   const openCamera = () => {
     setCameraOpen(true);
@@ -18,25 +25,23 @@ const Camera = () => {
   const captureImage = () => {
     const capturedSrc = webcamRef.current.getScreenshot();
     setImageSrc(capturedSrc);
-    setCameraOpen(false); // Close the camera once the photo is taken
+    setCameraOpen(false); 
   };
 
   const submitImage = async () => {
+    console.log("Riddles object:", riddles); 
+
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/hunt-templates/1/riddle-items/1/participations/1/riddle-item-submissions/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ image: imageSrc, label: "shower_curtain" }),
-      });
+      const response = await createRiddleItemSubmission(riddles.scavenger_hunt.id, riddles.id, '1', { image: imageSrc });
 
       if (!response.ok) {
+        setCameraOpen(false);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = await response.json();
       setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
+      setCameraOpen(false);
     } catch (error) {
       console.error('Error sending image to predictions:', error);
       setResponseMessage('Error sending image to predictions');
@@ -56,6 +61,7 @@ const Camera = () => {
             audio={false}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
             className="webcam"
           />
           <button className="submit-button" onClick={captureImage}>
