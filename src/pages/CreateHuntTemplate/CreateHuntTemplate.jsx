@@ -19,6 +19,8 @@ const CreateHuntTemplate = () => {
     id: 0,
     riddle: "",
   });
+  const [huntName, setHuntName] = useState("")
+  const [description, setDescription] = useState("")
   const [categories, setCategories] = useState([]);
   const [savedItems, setSavedItems] = useState([]);
   const [items, setItems] = useState([]);
@@ -50,10 +52,10 @@ const CreateHuntTemplate = () => {
 
   const deleteItemPair = (idx) => {
     const updatedList = savedItems.filter((item, index) => {
-      return index !== idx
-    })
-    setSavedItems(updatedList)
-  }
+      return index !== idx;
+    });
+    setSavedItems(updatedList);
+  };
 
   const filterItems = (newCat) => {
     const filtered = items.filter((item) => {
@@ -83,6 +85,7 @@ const CreateHuntTemplate = () => {
 
   const saveHunt = () => {
     // TODO: Create Hunt API
+
     console.log("Saving hunt", { huntName, description, categories });
   };
 
@@ -106,9 +109,11 @@ const CreateHuntTemplate = () => {
         {/* <Text as="h3" size="4" weight="bold" color="indigo">Riddle Item List</Text> */}
         <Table.Root>
           {savedItems.length === 0 ? (
-            <Table.Row>
-              <Table.Cell colSpan={4}>added items appear here</Table.Cell>
-            </Table.Row>
+            <Table.Header>
+              <Table.Row>
+                <Table.Cell colSpan={4}>added items appear here</Table.Cell>
+              </Table.Row>
+            </Table.Header>
           ) : (
             <>
               <Table.Header>
@@ -116,22 +121,42 @@ const CreateHuntTemplate = () => {
                   <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell>Item</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell>Riddle</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>
+                    Total : {savedItems.length}
+                  </Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 {savedItems.map((item, idx) => {
                   return (
-                    <>
-                      <Table.Row key={idx}>
-                        <Table.Cell>{idx + 1}</Table.Cell>
-                        <Table.Cell>{item.item}</Table.Cell>
-                        <Table.Cell>{item.riddle}</Table.Cell>
-                        <Table.Cell>
-                          <Button variant="soft" onClick={(e) => deleteItemPair(idx)}>Delete</Button>
-                        </Table.Cell>
-                      </Table.Row>
-                    </>
+                    <Table.Row key={idx}>
+                      <Table.Cell>{idx + 1}</Table.Cell>
+                      <Table.Cell
+                        style={{
+                          maxWidth: "30vw",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}>{item.item}</Table.Cell>
+                      <Table.Cell
+                        style={{
+                          maxWidth: "40vw",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {item.riddle}
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Button
+                          variant="soft"
+                          onClick={(e) => deleteItemPair(idx)}
+                        >
+                          Delete
+                        </Button>
+                      </Table.Cell>
+                    </Table.Row>
                   );
                 })}
               </Table.Body>
@@ -142,20 +167,16 @@ const CreateHuntTemplate = () => {
       <TextField.Root
         type="text"
         placeholder="Hunt Name"
-        value={selection.huntName}
-        onChange={(e) =>
-          setSelection({ ...selection, huntName: e.target.value })
-        }
+        value={huntName}
+        onChange={(e) => setHuntName(e.target.value)}
         style={{ width: "300px" }}
       >
         <TextField.Slot />
       </TextField.Root>
       <TextArea
         placeholder="Description"
-        value={selection.description}
-        onChange={(e) =>
-          setSelection({ ...selection, description: e.target.value })
-        }
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
         style={{ width: "300px", height: "50px" }}
       />
 
