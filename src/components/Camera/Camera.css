@@ -46,7 +46,7 @@
 .response-message {
   margin-top: 20px;
   font-size: 16px;
-  color: green;
+  color: rgb(34, 62, 200, 0.2);
 }
 
 .submit-button {

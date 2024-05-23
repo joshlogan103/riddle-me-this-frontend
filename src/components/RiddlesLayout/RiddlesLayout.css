@@ -2,6 +2,8 @@
   font-size: 24px;
   text-align: center; 
   margin-bottom: 20px; 
+  color: rgb(34, 62, 200, 0.8);
+  font-weight: bold;
 }
 
 .riddles-container {
@@ -44,3 +46,4 @@
   border-color: rgb(34, 62, 200); 
   color: white;
 }
+
