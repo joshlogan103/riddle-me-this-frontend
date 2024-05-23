@@ -11,13 +11,17 @@ const Camera = () => {
 
   const openCamera = () => {
     setCameraOpen(true);
+    setImageSrc(null);
+    setResponseMessage(null);
   };
 
-  const captureAndSend = async () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setImageSrc(imageSrc);
-    setCameraOpen(false);
+  const captureImage = () => {
+    const capturedSrc = webcamRef.current.getScreenshot();
+    setImageSrc(capturedSrc);
+    setCameraOpen(false); // Close the camera once the photo is taken
+  };
 
+  const submitImage = async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/hunt-templates/1/riddle-items/1/participations/1/riddle-item-submissions/', {
         method: 'POST',
@@ -32,7 +36,6 @@ const Camera = () => {
       }
 
       const data = await response.json();
-      console.log('Response from backend:', data);  // Add this line to debug the response
       setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
     } catch (error) {
       console.error('Error sending image to predictions:', error);
@@ -55,16 +58,19 @@ const Camera = () => {
             screenshotFormat="image/jpeg"
             className="webcam"
           />
-          <button className="submit-button" onClick={captureAndSend}>
-            Submit
+          <button className="submit-button" onClick={captureImage}>
+            Capture
           </button>
         </div>
       )}
       {imageSrc && (
         <div className="image-preview">
-          <img src={imageSrc} alt="captured" className="captured-image" />
-          <button className="submit-button" onClick={captureAndSend}>
+          <img src={imageSrc} alt="Captured" className="captured-image" />
+          <button className="submit-button" onClick={submitImage}>
             Submit
+          </button>
+          <button className="icon-button" onClick={openCamera}>
+            Retake Photo
           </button>
         </div>
       )}

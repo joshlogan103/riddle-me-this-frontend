@@ -47,13 +47,13 @@ const RiddlesLayout = () => {
       {riddles.length > 0 ? (
         <Tabs.Root defaultValue="tab1" className="riddles-container">
           <Tabs.List className="riddles-list">
-            {riddles.slice(0, 9).map((riddle, index) => (
+            {riddles.map((riddle, index) => (
               <Tabs.Trigger key={index} value={`tab${index + 1}`} className='riddles-tab'>
                 Riddle {index + 1}
               </Tabs.Trigger>
             ))}
           </Tabs.List>
-          {riddles.slice(0, 5).map((riddle, index) => (
+          {riddles.map((riddle, index) => (
             <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
               <p>{riddle.riddle}</p>
             </Tabs.Content>
