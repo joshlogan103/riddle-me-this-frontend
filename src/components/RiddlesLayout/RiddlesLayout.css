@@ -33,10 +33,11 @@
 }
 
 .riddles-tab:hover {
-  background-color: rgba(34, 62, 200, 0.4); /* Lighter background on hover */
-  border-color: rgba(34, 62, 200, 0.7); /* Slightly darker border on hover */
-  color: white; /* Optional: change text color on hover for better readability */
+  background-color: rgba(34, 62, 200, 0.4);
+  border-color: rgba(34, 62, 200); 
+  color: white; 
 }
+
 
 .active-tab {
   background-color: rgb(34, 62, 200); 
