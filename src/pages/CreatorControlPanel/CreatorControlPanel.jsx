@@ -42,14 +42,6 @@ const CreatorControlPanel = () => {
         <Button 
           onClick={handleClick} 
           variant="surface" 
-          style={{ 
-            marginBottom: '40px', 
-            backgroundColor: '#1E293B', 
-            color: '#fff', 
-            padding: '10px 20px', 
-            borderRadius: '8px', 
-            transition: 'background-color 0.3s',
-          }}
           onMouseOver={(e) => {
             e.currentTarget.style.backgroundColor = '#475569';
           }}
