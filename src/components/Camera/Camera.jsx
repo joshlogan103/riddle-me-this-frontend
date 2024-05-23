@@ -3,9 +3,11 @@ import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
 import './Camera.css';
 import { createRiddleItemSubmission } from '../../services/serviceRoutes/riddleItemSubmissionsServices';
+import { useParams } from 'react-router';
 
 const Camera = (props) => {
   const { riddle } = props;
+  const { participationId } = useParams();
 
   const webcamRef = useRef(null);
   const [cameraOpen, setCameraOpen] = useState(false);
@@ -37,7 +39,7 @@ const Camera = (props) => {
 
       // export const createRiddleItemSubmission = async (huntTemplateId, riddleItemId, participationId, payload)
       console.log(riddle.scavenger_hunt.id, riddle.id, riddle.item.name)
-      const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, '1', { image: imageSrc, label: riddle.item.name });
+      const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, participationId, { image: imageSrc, label: riddle.item.name });
 
       if (!response.status == 200) {
         setCameraOpen(false);
