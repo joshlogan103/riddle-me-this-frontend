@@ -4,7 +4,7 @@ import {
   loginUser,
   tokenRefresh,
 } from "../services/serviceRoutes/userServices";
-import { removeToken, setToken } from "../services/apiToken";
+import { getToken, setToken, removeToken } from "../services/apiToken";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
@@ -15,18 +15,24 @@ export const AuthContextComponent = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const intializeContext = async () => {
+    const initializeContext = async () => {
       try {
-        if (isUserLoggedIn) {
+        const token = getToken();
+        if (token) {
           const isUserValid = await tokenRefresh();
           if (isUserValid.status === 200) {
             setIsUserLoggedIn(true);
             setToken(isUserValid.data.access);
+          } else {
+            setIsUserLoggedIn(false);
+            removeToken();
           }
         }
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           console.log("not logged in");
+          setIsUserLoggedIn(false);
+          removeToken();
         } else {
           console.error("initialization error", error);
         }
@@ -34,7 +40,7 @@ export const AuthContextComponent = ({ children }) => {
         setAuthLoading(false);
       }
     };
-    intializeContext();
+    initializeContext();
   }, []);
 
   const loginUserAuth = async (payload) => {
@@ -47,7 +53,6 @@ export const AuthContextComponent = ({ children }) => {
         console.log(
           `successfully logged in user ${response.data.user.username}`
         );
-        console.log("redirect?");
         navigate("/browse");
       }
     } catch (error) {
@@ -64,8 +69,8 @@ export const AuthContextComponent = ({ children }) => {
         console.log(
           `successfully registered user ${response.data.user.username}`
         );
+        navigate("/browse");
       }
-      navigate("/browse");
     } catch (error) {
       console.log(error);
     }
