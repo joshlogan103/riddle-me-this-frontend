@@ -7,6 +7,9 @@ import Camera from '../Camera/Camera';
 import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
+
+
+
 const RiddlesLayout = () => {
   const [timeLeft, setTimeLeft] = useState(3600);
   const [riddles, setRiddles] = useState([]);
