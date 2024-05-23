@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import * as Tabs from '@radix-ui/react-tabs';
 import Loading from '../Loading/Loading';
 import Camera from '../Camera/Camera';
+import { Box, Text, Flex } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = () => {
@@ -73,7 +74,9 @@ const RiddlesLayout = () => {
         </Tabs.List>
         {riddles.map((riddle, index) => (
           <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
-            <p>{riddle.riddle}</p>
+            <Box className="riddle-box" padding="20px" marginTop="20px" borderRadius="8px" border="1px solid var(--color-surface)">
+                <Text size="4" weight="medium" textAlign="center">{riddle.riddle}</Text>
+              </Box>
           </Tabs.Content>
         ))}
       </Tabs.Root>
