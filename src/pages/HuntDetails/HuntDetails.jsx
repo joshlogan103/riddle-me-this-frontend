@@ -150,7 +150,7 @@ const HuntDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Placeholder for leaderboard entries */}
+            {/* Placeholder for leaderboard entries - delete */}
           </tbody>
         </table>
       </Box>
