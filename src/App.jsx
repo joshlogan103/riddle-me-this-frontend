@@ -11,7 +11,6 @@ import LaunchHunt from "./pages/LaunchHunt/LaunchHunt.jsx"
 import MyProfile from "./pages/MyProfile/MyProfile.jsx"
 import ProtectedRoutes from "./protected_routes/ProtectedRoutes.jsx";
 import "./App.css"
-import Camera from "./components/Camera/Camera.jsx";
 
 function App() {
 
@@ -22,8 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />}/>
           <Route path="/browse" element={<BrowseHunts />} />
-          {/* <Route path="/active-hunt" element={<ProtectedRoutes><ActiveHuntPage /></ProtectedRoutes>} /> */}
-          <Route path="/active-hunt/:huntInstanceId" element={<ActiveHuntPage />} />
+          <Route path="/active-hunt/:huntTemplateId" element={<ActiveHuntPage />} />
           <Route path="/create-hunt" element={<CreateHuntTemplate />} />
           <Route path="/creator-control-panel" element={<CreatorControlPanel />} />
           <Route path="/hunt-details/:huntInstanceId/:huntTemplateId" element={<HuntDetails />} />
