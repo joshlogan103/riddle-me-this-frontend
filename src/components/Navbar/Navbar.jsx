@@ -14,7 +14,7 @@ const Navbar = () => {
   const loginDialogRef = useRef(null);
   return (
     <div className="navbar">
-      <Logo /> {/* Add the Logo component */}
+      <Logo /> 
       <DropdownMenu.Root className="menu-root">
         <DropdownMenu.Trigger>
           <Button m="3" variant="surface">
