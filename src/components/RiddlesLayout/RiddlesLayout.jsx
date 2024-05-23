@@ -1,22 +1,23 @@
 import { useState, useEffect } from 'react';
 import { getRiddleItemsByTemplate } from '../../services/serviceRoutes/riddleItemServices';
-import { getHuntInstancesByTemplate } from '../../services/serviceRoutes/huntInstanceServices';
 import { useParams } from 'react-router';
+import * as Tabs from '@radix-ui/react-tabs';
+import Loading from '../Loading/Loading';
+import Camera from '../Camera/Camera';
+import './RiddlesLayout.css';
 
 const RiddlesLayout = () => {
-  const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
-  const [riddles, setRiddles] = useState([]); // State to store fetched riddles
+  const [timeLeft, setTimeLeft] = useState(3600);
+  const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { huntTemplateId } = useParams(); 
-  console.log(huntTemplateId);
-  
+  const { huntTemplateId } = useParams();
+
   useEffect(() => {
     const fetchResponse = async () => {
       try {
         const response = await getRiddleItemsByTemplate(huntTemplateId);
         if (response.status === 200) {
-          console.log(response.data);
           setRiddles(response.data);
           setLoading(false);
         }
@@ -26,31 +27,42 @@ const RiddlesLayout = () => {
       }
     };
     fetchResponse();
-    // Timer logic
     const timer = setInterval(() => {
       setTimeLeft(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
     }, 1000);
-  
+
     return () => clearInterval(timer);
   }, [huntTemplateId]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
+
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
 
   return (
     <div>
+      <p className="time-left">Time Left: {`${minutes}m ${seconds}s`}</p>
       {riddles.length > 0 ? (
-        <ul>
+        <Tabs.Root defaultValue="tab1" className="riddles-container">
+          <Tabs.List className="riddles-list">
+            {riddles.map((riddle, index) => (
+              <Tabs.Trigger key={index} value={`tab${index + 1}`} className='riddles-tab'>
+                Riddle {index + 1}
+              </Tabs.Trigger>
+            ))}
+          </Tabs.List>
           {riddles.map((riddle, index) => (
-            <li key={index}>{riddle.riddle}</li>
+            <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
+              <p>{riddle.riddle}</p>
+            </Tabs.Content>
           ))}
-        </ul>
+        </Tabs.Root>
       ) : (
         <p>No riddles available</p>
       )}
-      {/* FIXME: Change timer from seconds to minutes */}
-      <p>Time Left: {timeLeft} </p>
+      <Camera />
     </div>
   );
 };
