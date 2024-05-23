@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Flex, Text, DropdownMenu } from '@radix-ui/themes';
+import { TextField, TextArea, Button, Flex, Text, DropdownMenu } from '@radix-ui/themes';
 
 const CreateHuntTemplate = () => {
   const [categories, setCategories] = useState([{ category: '', item: '', riddle: '' }]);
@@ -38,19 +38,21 @@ const CreateHuntTemplate = () => {
       <Text as="h1" size="6" weight="bold" color="indigo" variant="soft">
         Create a Scavenger Hunt
       </Text>
-      <input
+      <TextField.Root 
         type="text"
-        placeholder="Name"
+        placeholder="Hunt Name"
         value={huntName}
         onChange={(e) => setHuntName(e.target.value)}
-        style={{ width: '100%', maxWidth: '500px', padding: '10px', margin: '10px 0', borderRadius: '4px', border: '1px solid #ccc' }}
-      />
-      <textarea
+        style={{width: '300px'}}
+        >
+        <TextField.Slot/>
+      </TextField.Root>
+      <TextArea
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        style={{ width: '100%', maxWidth: '500px', padding: '10px', margin: '10px 0', borderRadius: '4px', border: '1px solid #ccc' }}
-      />
+        style={{width: '300px', height: '50px'}}
+        />
       {categories.map((catItem, index) => (
         <Flex key={index} direction="column" gap="10px" style={{ width: '100%', maxWidth: '500px', padding: '10px' }}>
           <Flex direction="row" gap="10px" align="center" style={{ justifyContent: 'space-between' }}>
