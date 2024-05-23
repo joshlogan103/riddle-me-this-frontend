@@ -1,32 +1,44 @@
 import React from "react";
-import { Table } from "@radix-ui/themes";
+import { Button, Flex, Table, Text } from "@radix-ui/themes";
+import { NavLink } from "react-router-dom";
 
-const ProfileInstancesList = () => {
+const ProfileInstancesList = ({ participations }) => {
   return (
     <Table.Root m="4">
       <Table.Header>
         <Table.Row>
           <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Date</Table.ColumnHeaderCell>
           <Table.ColumnHeaderCell>Location</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell>Date</Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        <Table.Row>
-          <Table.Cell>name value</Table.Cell>
-          <Table.Cell>date value</Table.Cell>
-          <Table.Cell>location value really long one tho</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>name value</Table.Cell>
-          <Table.Cell>date value</Table.Cell>
-          <Table.Cell>location value really long one tho</Table.Cell>
-        </Table.Row>
-        <Table.Row>
-          <Table.Cell>name value</Table.Cell>
-          <Table.Cell>date value</Table.Cell>
-          <Table.Cell>location value really long one tho</Table.Cell>
-        </Table.Row>
+        {!participations.length ? (
+          <Text>No records to Show</Text>
+        ) : (
+          participations.map((game, idx) => {
+            const dateObj = new Date(game.hunt_instance.end_time);
+            const endTime = dateObj.toLocaleString("en-US");
+
+            return (
+              <Table.Row key={idx}>
+                <Table.Cell>
+                  <Button variant="surface" style={{ padding: "20px" }}>
+                    <NavLink
+                      to={`/hunt-details/${game.hunt_instance.id}/${game.hunt_instance.scavenger_hunt.id}`}
+                    >
+                      {game.hunt_instance.scavenger_hunt.name}
+                    </NavLink>
+                  </Button>
+                </Table.Cell>
+                <Table.Cell>
+                  {game.hunt_instance.scavenger_hunt.location}
+                </Table.Cell>
+                <Table.Cell>{endTime}</Table.Cell>
+              </Table.Row>
+            );
+          })
+        )}
       </Table.Body>
     </Table.Root>
   );
