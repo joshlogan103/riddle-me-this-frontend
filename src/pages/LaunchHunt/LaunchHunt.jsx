@@ -34,7 +34,7 @@ const LaunchHunt = () => {
         </Text>
         <input id="end-time" type="time" style={{ width: '100%', padding: '8px', marginTop: '8px', borderRadius: '4px', border: '1px solid #ccc' }} />
 
-        <Button color="indigo" variant="soft" size="large" style={{ width: '100%', marginTop: '20px' }}>
+        <Button color="indigo" variant="soft" size="large" style={{ width: '106%', marginTop: '20px' }}>
           Launch
         </Button>
       </Flex>
