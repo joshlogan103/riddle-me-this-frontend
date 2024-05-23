@@ -3,21 +3,61 @@ import { Button, Flex, Text, Box } from '@radix-ui/themes';
 import { useNavigate } from 'react-router-dom'; 
 import { useParams } from 'react-router-dom';
 import { getHuntInstanceById } from '../../services/serviceRoutes/huntInstanceServices';
+import { createParticipation, getPartByProfileAndHuntInstance } from '../../services/serviceRoutes/participationServices';
 import Loading from '../../components/Loading/Loading';
+import { getProfile } from '../../services/serviceRoutes/userServices';
 
 const HuntDetails = () => {
   const [huntInstance, setHuntInstance] = useState({});
+  const [profile, setProfile] = useState({})
   const [loading, setLoading] = useState(true);
   const { huntInstanceId } = useParams();
   const { huntTemplateId } = useParams();
+  const navigate = useNavigate(); 
+
+  // export const createParticipation = async (profileId, huntInstId, payload) => {
+  //   return await api.post(
+  //     `/profiles/${profileId}/hunt-instance/${huntInstId}/participations/`,
+
+  const handleJoinHunt = async () => {
+    try {
+      const participationExists = await getPartByProfileAndHuntInstance(profileId, huntInstanceId)
+
+      if (participationExists.status == 200 && participationExists.id) {
+        handleCreateParticipation()
+      } else {
+        console.log('A participation already exists for this user on this hunt.')
+        navigate(`/active-hunt/${huntInstanceId}/${participationExists.id}`)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleCreateParticipation = async () => {
+    try {
+      const participationCreated = await createParticipation(profileId, huntInstanceId, {
+        place_finished: 1,
+        items_found: 0,
+        time_of_last_item_found: new Date
+      })
+      if (participationCreated.status == 200) {
+        const participationId = participationCreated.id;
+        navigate(`/active-hunt/${huntInstanceId}/${participationId}`)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   useEffect(() => {
     const fetchHuntInstance = async () => {
       try {
-        const response = await getHuntInstanceById(huntTemplateId, huntInstanceId);
+        const profileResponse = await getProfile
+        const huntResponse = await getHuntInstanceById(huntTemplateId, huntInstanceId);
         if (response) {
-          console.log(response.data);
-          setHuntInstance(response.data.hunt_instance);
+          console.log(huntResponse.data);
+          setHuntInstance(huntResponse.data.hunt_instance);
           setLoading(false);
         }
       } catch (error) {
@@ -27,8 +67,6 @@ const HuntDetails = () => {
     };
     fetchHuntInstance();
   }, [huntTemplateId, huntInstanceId]);
-
-  const navigate = useNavigate(); 
 
   if (loading) {
     return <Loading />; 
@@ -53,7 +91,7 @@ const HuntDetails = () => {
           color="indigo" 
           variant="soft" 
           size="large" 
-          onClick={() => navigate(`/active-hunt/${huntInstanceId}`)}
+          onClick={() => handleJoinHunt()}
         >
           Join the Hunt!
         </Button>
