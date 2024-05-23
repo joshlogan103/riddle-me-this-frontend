@@ -94,10 +94,17 @@ const CreateHuntTemplate = () => {
           />
         </Flex>
       ))}
-      <Button onClick={addCategoryItemPair} variant="soft" style={{ width: '100%', maxWidth: '500px' }}>
+      <Button onClick={addCategoryItemPair} variant="soft" style={{ width: '100%', maxWidth: '500px', cursor: 'default' }}>
         Add Category & Item
       </Button>
-      <Button onClick={saveHunt} variant="solid" color="indigo" style={{ width: '100%', maxWidth: '500px' }}>
+      <Button onClick={saveHunt} variant="surface" style={{ width: '100%', maxWidth: '500px', transition: 'transform 0.2s', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = 'scale(1.05)';
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
         Create Scavenger Hunt
       </Button>
     </Flex>
