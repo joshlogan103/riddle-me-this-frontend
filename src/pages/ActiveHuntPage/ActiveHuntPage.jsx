@@ -3,23 +3,41 @@ import RiddlesLayout from "../../components/RiddlesLayout/RiddlesLayout";
 import "./activeHuntPage.css";
 import { useParams, useNavigate } from "react-router";
 import { getHuntInstanceById } from "../../services/serviceRoutes/huntInstanceServices";
-import {Dialog, Button} from '@radix-ui/themes';
+import { Dialog, Button } from "@radix-ui/themes";
 
 const ActiveHunt = () => {
-  const [timeLeft, setTimeLeft] = useState(5); // 5 seconds
+  const [timeLeft, setTimeLeft] = useState(0); // 5 seconds
   const [showNewContent, setShowNewContent] = useState(false);
   const { huntTemplateId, huntInstanceId } = useParams();
+  const [showDialog, setShowDialog] = useState(false);
+  const [activeMode, setActiveMode] = useState(false)
+  const navigate = useNavigate();
 
-  const calculateTimeLeft = (startTime) => {
+  const calculateTimeToStart = (startTime) => {
     const targetDate = new Date(startTime);
     const currentDate = new Date();
-    console.log(targetDate, currentDate);
     const timeDifference = targetDate.getTime() - currentDate.getTime();
+    console.log(targetDate, currentDate);
+    // const timeDifference = targetDate.getTime() - currentDate.getTime();
     const milliseconds = timeDifference;
     console.log(Math.abs(milliseconds));
 
     setTimeLeft(Math.abs(milliseconds));
   };
+
+  const calculateTimeLeft = () => {
+    const startTime = new Date(response.data.hunt_instance.start_time);
+    const now = new Date();
+    const initialTimeLeft = Math.floor((startTime - now) / 1000);
+    setTimeLeft(initialTimeLeft > 0 ? initialTimeLeft : 0);
+  }
+
+  const determinePreOrActive = (startTime) => {
+    const targetDate = new Date(startTime);
+    const currentDate = new Date();
+    const timeDifference = targetDate.getTime() - currentDate.getTime();
+    return timeDifference < 0 ? true : false
+  }
 
   useEffect(() => {
     const fetchHuntInstance = async () => {
@@ -30,34 +48,19 @@ const ActiveHunt = () => {
         );
         // console.log(response.data)
         if (response.status === 200) {
-          calculateTimeLeft(response.data.hunt_instance.start_time);
+          const startTime = response.data.hunt_instance.start_time
+          const active = determinePreOrActive(startTime);
+          console.log(active)
+          active 
+            ? calculateTimeLeft(startTime) && setActiveMode(true)
+            : calculateTimeToStart(startTime)
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchHuntInstance();
-  }, []);
-  const [showDialog, setShowDialog] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchStartTime = async () => {
-      try {
-        const response = await getHuntInstanceById(huntInstanceId, huntTemplateId);
-        if (response.status === 200) {
-          const startTime = new Date(response.data.hunt_instance.start_time);
-          const now = new Date();
-          const initialTimeLeft = Math.floor((startTime - now) / 1000);
-          setTimeLeft(initialTimeLeft > 0 ? initialTimeLeft : 0);
-        }
-      } catch (error) {
-        console.error('Error fetching start time:', error);
-      }
-    };
-
-    fetchStartTime();
-  }, [huntTemplateId, huntInstanceId]);
+  }, [activeMode]);
 
   useEffect(() => {
     if (timeLeft == null) return;
@@ -73,14 +76,12 @@ const ActiveHunt = () => {
       });
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => clearInterval(timer) && setActiveMode(true);
   }, [timeLeft]);
 
   const formatTime = (timeLeft) => {
     const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-      (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     const remainingSeconds = timeLeft % 60;
     return `${days} days ${hours} hours ${minutes}:${remainingSeconds
@@ -89,7 +90,7 @@ const ActiveHunt = () => {
   };
 
   const handleRedirect = () => {
-    navigate('/browse');
+    navigate("/browse");
   };
 
   const handleRiddleTimerZero = () => {
@@ -102,8 +103,10 @@ const ActiveHunt = () => {
         <>
           <div className="header"></div>
           <div className="content">
-            {timeLeft !== null ? (
-              <p className="timer">{formatTime(timeLeft)} until the hunt begins</p>
+            {!activeMode ? (
+              <p className="timer">
+                {formatTime(timeLeft)} until the hunt begins
+              </p>
             ) : (
               <p>Loading start time...</p>
             )}
@@ -116,7 +119,13 @@ const ActiveHunt = () => {
       <Dialog.Root open={showDialog} onOpenChange={setShowDialog}>
         <Dialog.Content className="dialog-content">
           <Dialog.Title>The hunt is over</Dialog.Title>
-          <Button className="dialog-close" variant='surface' onClick={handleRedirect}>Browse Hunts</Button>
+          <Button
+            className="dialog-close"
+            variant="surface"
+            onClick={handleRedirect}
+          >
+            Browse Hunts
+          </Button>
         </Dialog.Content>
       </Dialog.Root>
     </div>
