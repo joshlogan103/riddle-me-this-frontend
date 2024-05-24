@@ -8,16 +8,8 @@ import Camera from '../Camera/Camera';
 import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
-<<<<<<< HEAD
 const RiddlesLayout = ({ onTimerZero }) => {
   const [timeLeft, setTimeLeft] = useState(3000);
-=======
-
-
-
-const RiddlesLayout = () => {
-  const [timeLeft, setTimeLeft] = useState(3600);
->>>>>>> 1de54e8fb26edd9fffc6a616a51360f358beca06
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("");
