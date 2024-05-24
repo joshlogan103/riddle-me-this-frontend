@@ -1,4 +1,3 @@
-// src/components/RiddlesLayout/RiddlesLayout.jsx
 import { useState, useEffect } from 'react';
 import { getRiddleItemsByTemplate } from '../../services/serviceRoutes/riddleItemServices';
 import { useParams } from 'react-router';
@@ -9,7 +8,7 @@ import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = ({ onTimerZero }) => {
-  const [timeLeft, setTimeLeft] = useState(3000);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes = seconds
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("");
