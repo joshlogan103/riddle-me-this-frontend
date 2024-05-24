@@ -6,6 +6,7 @@ import './Camera.css';
 import { createRiddleItemSubmission } from '../../services/serviceRoutes/riddleItemSubmissionsServices';
 import { countCorrectSubmissionsByParticipation } from '../../services/serviceRoutes/participationServices';
 import { useParams } from 'react-router';
+import RingLoaderComponent from '../RingLoaderComponent/RingLoaderComponent';
 
 const Camera = (props) => {
   const { riddle, onCorrectIdentification } = props;
@@ -19,6 +20,7 @@ const Camera = (props) => {
   const [videoConstraints, setVideoConstraints] = useState({
     facingMode: "environment"  // Attempt to use the rear camera on devices
   });
+  const [loading, setLoading] = useState(false);
 
   const openCamera = () => {
     setCameraOpen(true);
@@ -33,29 +35,31 @@ const Camera = (props) => {
   };
 
   const submitImage = async () => {
+    setLoading(true);
     try {
       const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, participationId, { image: imageSrc, label: riddle.item.name });
 
-      if (!response.status == 200) {
-        setCameraOpen(false);
-        setImageSrc(null);
+      if (!response.status === 200) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = response.data
-      setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
-      if (data.correct) {
-        onCorrectIdentification(riddle.id);
-        await fetchCorrectSubmissionsCount();
-      }
-      setCameraOpen(false);
-      setImageSrc(null);
+      const data = response.data;
+      setTimeout(() => {
+        setLoading(false);
+        setResponseMessage(data.correct ? "Correct" : "Try Again");
+        setCameraOpen(false); // Close the camera after submission
+        setImageSrc(null); // Clear the captured image
+        if (data.correct) {
+          onCorrectIdentification(riddle.id);
+          fetchCorrectSubmissionsCount();
+        }
+      }, 3000);
     } catch (error) {
       console.error('Error sending image to predictions:', error);
+      setLoading(false);
       setResponseMessage('Error sending image to predictions');
     }
   };
-
 
   const fetchCorrectSubmissionsCount = async () => {
     try {
@@ -69,10 +73,11 @@ const Camera = (props) => {
       console.error(error);
     }
   };
-  fetchCorrectSubmissionsCount()
+  fetchCorrectSubmissionsCount();
 
   return (
     <div className="camera-container">
+      {loading && <RingLoaderComponent loading={loading} />}
       {!cameraOpen && !imageSrc && (
         <button className="icon-button" onClick={openCamera}>
           <CameraIcon size={32} />
@@ -92,7 +97,7 @@ const Camera = (props) => {
           </button>
         </div>
       )}
-      {imageSrc && (
+      {imageSrc && !loading && (
         <div className="image-preview">
           <img src={imageSrc} alt="Captured" className="captured-image" />
           <button className="submit-button" onClick={submitImage}>
