@@ -82,7 +82,6 @@ const ActiveHunt = () => {
       <Dialog.Root open={showDialog} onOpenChange={setShowDialog}>
         <Dialog.Content className="dialog-content">
           <Dialog.Title>The hunt is over</Dialog.Title>
-          <Dialog.Description>Your time for the hunt has ended.</Dialog.Description>
           <Button className="dialog-close" variant='surface' onClick={handleRedirect}>Return home</Button>
         </Dialog.Content>
       </Dialog.Root>
