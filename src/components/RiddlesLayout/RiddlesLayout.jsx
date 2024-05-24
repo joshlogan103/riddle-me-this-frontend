@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import * as Tabs from '@radix-ui/react-tabs';
 import Loading from '../Loading/Loading';
 import Camera from '../Camera/Camera';
-import { Text, Flex, Card } from '@radix-ui/themes';
+import { Text, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = () => {
