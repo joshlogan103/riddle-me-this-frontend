@@ -14,8 +14,6 @@ const Camera = (props) => {
   const [imageSrc, setImageSrc] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
   const [videoConstraints, setVideoConstraints] = useState({
-    width: 1280,
-    height: 720,
     facingMode: "environment"  // Attempt to use the rear camera on devices
   });
 
