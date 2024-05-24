@@ -25,7 +25,7 @@ function App() {
           <Route path="/create-hunt" element={<ProtectedRoutes><CreateHuntTemplate /></ProtectedRoutes>} />
           <Route path="/creator-control-panel" element={<ProtectedRoutes><CreatorControlPanel /></ProtectedRoutes>} />
           <Route path="/hunt-details/:huntInstanceId/:huntTemplateId" element={<ProtectedRoutes><HuntDetails /></ProtectedRoutes>} />
-          <Route path="/launch-hunt" element={<ProtectedRoutes><LaunchHunt /></ProtectedRoutes>} />
+          <Route path="/launch-hunt/:huntTemplateId" element={<ProtectedRoutes><LaunchHunt /></ProtectedRoutes>} />
           <Route path="/profile" element={<ProtectedRoutes><MyProfile /></ProtectedRoutes>} />
         </Routes>
       </div>
