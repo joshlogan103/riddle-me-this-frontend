@@ -78,12 +78,14 @@ const MyProfile = () => {
             <Tabs.Trigger value="previous">Previous Games</Tabs.Trigger>
           </Tabs.List>
         </Flex>
-        <Tabs.Content value="upcoming">
-          <ProfileInstancesList participations={upcomingHunts}/>
-        </Tabs.Content>
-        <Tabs.Content value="previous">
-          <ProfileInstancesList participations={pastHunts}/>
-        </Tabs.Content>
+        <Flex overflowY="scroll" maxHeight="45vh">
+          <Tabs.Content value="upcoming">
+            <ProfileInstancesList participations={upcomingHunts}/>
+          </Tabs.Content>
+          <Tabs.Content value="previous">
+            <ProfileInstancesList participations={pastHunts}/>
+          </Tabs.Content>
+        </Flex>
       </Tabs.Root>
     </Flex>
   );
