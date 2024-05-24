@@ -25,3 +25,11 @@ export const tokenRefresh = async () => {
 export const getProfile = async () => {
     return await api.get(`/profiles/`)
 }
+
+export const updateProfile = async (payload) => {
+  return await api.patch("/profiles/detail/", payload, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
