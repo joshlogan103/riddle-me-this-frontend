@@ -12,6 +12,10 @@ export const getPartByHuntInst = async (huntId) => {
   return await api.get(`/hunt-instance/${huntId}/participations/`);
 };
 
+export const countCorrectSubmissionsByParticipation = async (participationId) => {
+  return await api.get(`/participations/${participationId}/count-correct/`);
+}
+
 export const createParticipation = async (profileId, huntInstId, payload) => {
   return await api.post(
     `/profiles/${profileId}/hunt-instance/${huntInstId}/participations/create/`,

@@ -1,21 +1,22 @@
-import { useRef, useState } from 'react';
+// src/components/Camera/Camera.jsx
+import { useEffect, useRef, useState } from 'react';
 import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
 import './Camera.css';
 import { createRiddleItemSubmission } from '../../services/serviceRoutes/riddleItemSubmissionsServices';
+import { countCorrectSubmissionsByParticipation } from '../../services/serviceRoutes/participationServices';
 import { useParams } from 'react-router';
 
 const Camera = (props) => {
-  const { riddle } = props;
+  const { riddle, onCorrectIdentification } = props;
   const { participationId } = useParams();
 
   const webcamRef = useRef(null);
   const [cameraOpen, setCameraOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
+  const [correctSubmissionsCount, setCorrectSubmissionsCount] = useState(0);
   const [videoConstraints, setVideoConstraints] = useState({
-    width: 1280,
-    height: 720,
     facingMode: "environment"  // Attempt to use the rear camera on devices
   });
 
@@ -32,13 +33,7 @@ const Camera = (props) => {
   };
 
   const submitImage = async () => {
-    console.log("Riddles object:", riddle); 
-
     try {
-      console.log(riddle)
-
-      // export const createRiddleItemSubmission = async (huntTemplateId, riddleItemId, participationId, payload)
-      console.log(riddle.scavenger_hunt.id, riddle.id, riddle.item.name)
       const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, participationId, { image: imageSrc, label: riddle.item.name });
 
       if (!response.status == 200) {
@@ -49,6 +44,10 @@ const Camera = (props) => {
 
       const data = response.data
       setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
+      if (data.correct) {
+        onCorrectIdentification(riddle.id);
+        await fetchCorrectSubmissionsCount();
+      }
       setCameraOpen(false);
       setImageSrc(null);
     } catch (error) {
@@ -56,6 +55,21 @@ const Camera = (props) => {
       setResponseMessage('Error sending image to predictions');
     }
   };
+
+
+  const fetchCorrectSubmissionsCount = async () => {
+    try {
+      if (participationId) {
+        const response = await countCorrectSubmissionsByParticipation(participationId);
+        if (response.status === 200) {
+          setCorrectSubmissionsCount(response.data.correct_count);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchCorrectSubmissionsCount()
 
   return (
     <div className="camera-container">
@@ -73,7 +87,7 @@ const Camera = (props) => {
             videoConstraints={videoConstraints}
             className="webcam"
           />
-          <button className="submit-button" onClick={captureImage}>
+          <button className="submit-button" onClick={captureImage} style={{marginBottom: '20px'}}>
             Capture
           </button>
         </div>
