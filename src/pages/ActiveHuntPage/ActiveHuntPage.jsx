@@ -1,23 +1,26 @@
 import { useState, useEffect } from "react";
 import RiddlesLayout from "../../components/RiddlesLayout/RiddlesLayout";
 import "./activeHuntPage.css";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { getHuntInstanceById } from "../../services/serviceRoutes/huntInstanceServices";
+import {Dialog, Button} from '@radix-ui/themes';
 
 const ActiveHunt = () => {
   const [timeLeft, setTimeLeft] = useState(null);
   const [showNewContent, setShowNewContent] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const { huntTemplateId, huntInstanceId } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchStartTime = async () => {
       try {
         const response = await getHuntInstanceById(huntInstanceId, huntTemplateId);
-        if (response.status == 200) {
-
-        const startTime = new Date(response.data.hunt_instance.start_time);
-        const now = new Date();
-        const initialTimeLeft = Math.floor(startTime - now); 
-        setTimeLeft(initialTimeLeft > 0 ? initialTimeLeft : 0);
+        if (response.status === 200) {
+          const startTime = new Date(response.data.hunt_instance.start_time);
+          const now = new Date();
+          const initialTimeLeft = Math.floor((startTime - now) / 1000);
+          setTimeLeft(initialTimeLeft > 0 ? initialTimeLeft : 0);
         }
       } catch (error) {
         console.error('Error fetching start time:', error);
@@ -28,7 +31,7 @@ const ActiveHunt = () => {
   }, [huntTemplateId, huntInstanceId]);
 
   useEffect(() => {
-    if (timeLeft == null) return; 
+    if (timeLeft == null) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -50,6 +53,14 @@ const ActiveHunt = () => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
+  const handleRedirect = () => {
+    navigate('/');
+  };
+
+  const handleRiddleTimerZero = () => {
+    setShowDialog(true);
+  };
+
   return (
     <div className="pregame-container">
       {!showNewContent ? (
@@ -65,8 +76,16 @@ const ActiveHunt = () => {
           </div>
         </>
       ) : (
-        <RiddlesLayout />
+        <RiddlesLayout onTimerZero={handleRiddleTimerZero} />
       )}
+
+      <Dialog.Root open={showDialog} onOpenChange={setShowDialog}>
+        <Dialog.Content className="dialog-content">
+          <Dialog.Title>The hunt is over</Dialog.Title>
+          <Dialog.Description>Your time for the hunt has ended.</Dialog.Description>
+          <Button className="dialog-close" variant='surface' onClick={handleRedirect}>Return home</Button>
+        </Dialog.Content>
+      </Dialog.Root>
     </div>
   );
 };
