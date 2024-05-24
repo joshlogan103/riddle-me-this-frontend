@@ -45,7 +45,9 @@ const HuntInstanceEntry = ({ results, setResults, byHuntId, huntId }) => {
                 >
                   <Button
                     variant="surface"
-                    style={{ textDecoration: "none", color: "inherit" }}
+                    style={{ textDecoration: "none", color: "inherit", whiteSpace: "normal",
+                    height: "50px",
+                    width: "130px",}}
                   >
                     {result.scavenger_hunt.name}
                   </Button>
