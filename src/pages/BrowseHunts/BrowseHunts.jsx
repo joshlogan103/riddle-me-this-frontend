@@ -13,7 +13,7 @@ const BrowseHunts = () => {
       try {
         const response = await getAllHuntInstances();
         if (response.status === 200) {
-          console.log(response.data);
+          // console.log(response.data);
           setResults(response.data);
         }
       } catch (error) {
@@ -57,7 +57,12 @@ const BrowseHunts = () => {
       >
         Browse Hunts
       </Text>
-      <Flex direction="row" className="search-container" width="100%" justify="center">
+      <Flex
+        direction="row"
+        className="search-container"
+        width="100%"
+        justify="center"
+      >
         <input
           type="text"
           placeholder="Search for hunts..."
@@ -84,12 +89,20 @@ const BrowseHunts = () => {
         <Table.Root>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell className="table-header-hunts">Hunts</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="table-header-date">Date</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="table-header-hunts">
+                Hunts
+              </Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="table-header-date">
+                Date
+              </Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <HuntInstanceEntry results={results}/>
+            <HuntInstanceEntry
+              results={results}
+              byHuntId={false}
+              setResults={setResults}
+            />
           </Table.Body>
         </Table.Root>
       </Box>

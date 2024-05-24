@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, Table, Button, Flex } from "@radix-ui/themes";
+import { Text, Table, Button, Flex } from "@radix-ui/themes";
 import { useState } from "react";
 import HuntInstanceEntry from "../HuntInstanceEntry/HuntInstanceEntry";
 
@@ -15,7 +15,7 @@ const HuntTemplateEntry = (props) => {
       });
       setExpandedRows(revisedRows);
     } else {
-      setExpandedRows([...expandedRows, index]);
+      setExpandedRows([index]);
     }
   };
 
@@ -48,7 +48,7 @@ const HuntTemplateEntry = (props) => {
                   <Table.Row>
                     <Table.RowHeaderCell style={{ textAlign: "center" }}>
                       <Button
-                        variant="surface"
+                        variant="soft"
                         style={{
                           textDecoration: "none",
                           color: "inherit",
@@ -67,6 +67,8 @@ const HuntTemplateEntry = (props) => {
                     <HuntInstanceEntry
                       results={results}
                       setResults={setResults}
+                      byHuntId={true}
+                      huntId={hunt.id}
                     />
                   )}
                 </React.Fragment>
