@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import * as Tabs from '@radix-ui/react-tabs';
 import Loading from '../Loading/Loading';
 import Camera from '../Camera/Camera';
-import { Text, Card } from '@radix-ui/themes';
+import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = () => {
@@ -91,3 +91,4 @@ const RiddlesLayout = () => {
 
 export default RiddlesLayout;
 
+// TODO: once the game is over, the user should be redirected to the hunt details page
