@@ -74,8 +74,8 @@ const RiddlesLayout = () => {
         </Tabs.List>
         {riddles.map((riddle, index) => (
           <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
-             <Card className="riddle-card" variant="surface" padding="20px" marginTop="20px" borderRadius="8px" border="1px solid var(--color-surface)">
-                <Text size="4" weight="medium" textAlign="center">{riddle.riddle}</Text>
+             <Card className="riddle-card" variant="surface" padding="20px" margintop="20px" borderradius="8px" border="1px solid var(--color-surface)">
+                <Text size="4" weight="medium" textalign="center">{riddle.riddle}</Text>
               </Card>
           </Tabs.Content>
         ))}
