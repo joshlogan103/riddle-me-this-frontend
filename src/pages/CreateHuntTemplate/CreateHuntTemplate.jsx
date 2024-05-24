@@ -59,6 +59,7 @@ const CreateHuntTemplate = () => {
 
   const addCategoryItemPair = () => {
     setSavedItems([...savedItems, selection]);
+    setSelection({...selection, riddle: ""})
   };
 
   const deleteItemPair = (idx) => {
@@ -100,7 +101,8 @@ const CreateHuntTemplate = () => {
       const response = await createHuntTemplate({name: huntName, description: description, location: location, difficulty: "E"})
       console.log(response)
       if (response.status === 201) {
-        setNewHuntId(response.data.id)
+        const huntTemplateId = response.data.id
+        setNewHuntId(huntTemplateId)
         setIsTempCreated(true)
       }
     } catch (error) {
@@ -118,7 +120,7 @@ const CreateHuntTemplate = () => {
       const response = await createRiddleItemByTemplate(newHuntId, updatedPayload)
       console.log(response)
       if (response.status === 201) {
-        navigate("/creator-control-panel")
+        navigate(`/creator-control-panel`)
         console.log("riddle items sent and saved!")
       }
     } catch (error) {

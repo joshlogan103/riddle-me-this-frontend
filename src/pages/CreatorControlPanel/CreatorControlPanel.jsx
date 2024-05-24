@@ -20,6 +20,7 @@ const CreatorControlPanel = () => {
       try {
         const response = await getHuntTemplatesByUser()
         if (response.status == 200) {
+          // console.log(response)
           setHuntTemplates(response.data)
           setLoading(false)
         }
