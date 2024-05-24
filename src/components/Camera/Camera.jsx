@@ -1,9 +1,10 @@
 // src/components/Camera/Camera.jsx
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
 import './Camera.css';
 import { createRiddleItemSubmission } from '../../services/serviceRoutes/riddleItemSubmissionsServices';
+import { countCorrectSubmissionsByParticipation } from '../../services/serviceRoutes/participationServices';
 import { useParams } from 'react-router';
 
 const Camera = (props) => {
@@ -14,6 +15,7 @@ const Camera = (props) => {
   const [cameraOpen, setCameraOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
+  const [correctSubmissionsCount, setCorrectSubmissionsCount] = useState(0);
   const [videoConstraints, setVideoConstraints] = useState({
     facingMode: "environment"  // Attempt to use the rear camera on devices
   });
@@ -33,6 +35,7 @@ const Camera = (props) => {
   const submitImage = async () => {
     try {
       const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, participationId, { image: imageSrc, label: riddle.item.name });
+      await fetchCorrectSubmissionsCount();
 
       if (!response.status == 200) {
         setCameraOpen(false);
@@ -53,6 +56,21 @@ const Camera = (props) => {
     }
   };
 
+
+  const fetchCorrectSubmissionsCount = async () => {
+    try {
+      if (participationId) {
+        const response = await countCorrectSubmissionsByParticipation(participationId);
+        if (response.status === 200) {
+          setCorrectSubmissionsCount(response.data.correct_count);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchCorrectSubmissionsCount()
+
   return (
     <div className="camera-container">
       {!cameraOpen && !imageSrc && (
@@ -69,7 +87,7 @@ const Camera = (props) => {
             videoConstraints={videoConstraints}
             className="webcam"
           />
-          <button className="submit-button" onClick={captureImage}>
+          <button className="submit-button" onClick={captureImage} style={{marginBottom: '20px'}}>
             Capture
           </button>
         </div>
