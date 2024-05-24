@@ -134,7 +134,7 @@ const CreateHuntTemplate = () => {
       style={{ padding: "20px" }}
     >
       {!isTempCreated ? (
-        <Text as="h1" size="6" weight="bold" color="indigo" variant="soft">
+        <Text as="h1" size="6" weight="bold" color="indigo" variant="soft" highContrast>
           Create a Scavenger Hunt
         </Text>
       ) : (
