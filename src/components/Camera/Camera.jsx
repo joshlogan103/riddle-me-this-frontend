@@ -1,4 +1,3 @@
-// src/components/Camera/Camera.jsx
 import { useEffect, useRef, useState } from 'react';
 import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
