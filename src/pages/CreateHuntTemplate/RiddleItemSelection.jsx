@@ -26,7 +26,7 @@ const RiddleItemSelection = ({
         >
           <DropdownMenu.Root>
             <DropdownMenu.Trigger>
-              <Button variant="surface" style={{ width: "48%" }}>
+              <Button variant="surface" style={{ width: "130px" }}>
                 {selection?.category || "Select Category"}
               </Button>
             </DropdownMenu.Trigger>
@@ -43,7 +43,7 @@ const RiddleItemSelection = ({
           </DropdownMenu.Root>
           <DropdownMenu.Root>
             <DropdownMenu.Trigger>
-              <Button variant="surface" style={{ width: "48%" }}>
+              <Button variant="surface" style={{ width: "130px" }}>
                 {selection.item || "Select Item"}
               </Button>
             </DropdownMenu.Trigger>

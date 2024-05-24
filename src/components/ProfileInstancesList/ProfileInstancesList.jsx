@@ -25,7 +25,7 @@ const ProfileInstancesList = ({ participations }) => {
                 <Table.Cell>
                   <Button variant="surface" style={{ padding: "20px" }}>
                     <NavLink
-                      to={`/hunt-details/${game.hunt_instance.id}/${game.hunt_instance.scavenger_hunt.id}`}
+                      to={`/hunt-details/${game.hunt_instance.id}/${game.hunt_instance.scavenger_hunt.id}`} style={{textDecoration: 'none', color:'lightgray'}}
                     >
                       {game.hunt_instance.scavenger_hunt.name}
                     </NavLink>
