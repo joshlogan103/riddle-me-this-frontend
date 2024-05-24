@@ -7,10 +7,11 @@ const SubmitHuntBtn = ({createHunt, saveAndExit, isTempCreated}) => {
     onClick={!isTempCreated ? createHunt : saveAndExit}
     variant="surface"
     style={{
-      width: "100%",
+      width: "60%",
       maxWidth: "500px",
       transition: "transform 0.2s, background-color 0.2s",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      marginTop: '20px'
     }}
     onMouseOver={(e) => {
       e.currentTarget.style.transform = "scale(1.05)";

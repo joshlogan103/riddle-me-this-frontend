@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Flex, Text, Box, Table } from "@radix-ui/themes";
+import { useEffect, useState } from "react";
+import { Button, Flex, Text, Box, Table, TextField } from "@radix-ui/themes";
 import { getAllHuntInstances } from "../../services/serviceRoutes/huntInstanceServices";
 import "./browseHunts.css";
 import HuntInstanceEntry from "../../components/HuntInstanceEntry/HuntInstanceEntry";
@@ -63,8 +63,7 @@ const BrowseHunts = () => {
         width="100%"
         justify="center"
       >
-        <input
-          type="text"
+        <TextField.Root
           placeholder="Search for hunts..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -75,7 +74,9 @@ const BrowseHunts = () => {
             border: "1px solid #ccc",
             borderRadius: "4px",
           }}
-        />
+        >
+        <TextField.Slot />
+        </TextField.Root>
         <Button
           onClick={handleSearch}
           color="indigo"
