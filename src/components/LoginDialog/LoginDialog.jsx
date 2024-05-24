@@ -57,7 +57,7 @@ const LoginDialog = forwardRef(({ buttonName }, ref) => {
                 Email
               </Text>
               <TextField.Root
-                placeholder="Enter username"
+                placeholder="Enter email"
                 name="email"
                 value={email}
                 onChange={(e) => handleEmail(e)}

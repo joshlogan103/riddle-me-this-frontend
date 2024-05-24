@@ -34,7 +34,7 @@ const HuntTemplateEntry = (props) => {
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell className="table-header-hunts">
-                Hunt
+                Hunt Template
               </Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="table-header-date">
                 Location

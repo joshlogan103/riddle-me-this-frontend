@@ -1,6 +1,9 @@
 import React from 'react';
 import { Button, Flex, Text } from '@radix-ui/themes';
 
+// TODO: ensure Launch Hunt creates Hunt Instance
+// TODO: ensure Launch Hunt redirects
+
 const LaunchHunt = () => {
   return (
     <Flex
