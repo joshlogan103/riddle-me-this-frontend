@@ -139,7 +139,7 @@ const HuntDetails = () => {
           marginTop: '20px'
         }}
       >
-        <Text size="4" weight="medium" style={{ marginBottom: '10px' }}>Leaderboard</Text>
+        <Text size="4" weight="medium" style={{ marginBottom: '10px', textAlign: 'center'}}>Leaderboard</Text>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr>
