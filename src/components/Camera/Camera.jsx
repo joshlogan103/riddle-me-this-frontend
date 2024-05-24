@@ -1,18 +1,22 @@
-import { useRef, useState } from 'react';
+// src/components/Camera/Camera.jsx
+import { useEffect, useRef, useState } from 'react';
 import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
 import './Camera.css';
 import { createRiddleItemSubmission } from '../../services/serviceRoutes/riddleItemSubmissionsServices';
+import { countCorrectSubmissionsByParticipation } from '../../services/serviceRoutes/participationServices';
+import { useParams } from 'react-router';
 
 const Camera = (props) => {
-  const { riddles } = props;
+  const { riddle, onCorrectIdentification } = props;
+  const { participationId } = useParams();
+
   const webcamRef = useRef(null);
   const [cameraOpen, setCameraOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
+  const [correctSubmissionsCount, setCorrectSubmissionsCount] = useState(0);
   const [videoConstraints, setVideoConstraints] = useState({
-    width: 1280,
-    height: 720,
     facingMode: "environment"  // Attempt to use the rear camera on devices
   });
 
@@ -29,24 +33,43 @@ const Camera = (props) => {
   };
 
   const submitImage = async () => {
-    console.log("Riddles object:", riddles); 
-
     try {
-      const response = await createRiddleItemSubmission(riddles.scavenger_hunt.id, riddles.id, '1', { image: imageSrc });
+      const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, participationId, { image: imageSrc, label: riddle.item.name });
 
-      if (!response.ok) {
+      if (!response.status == 200) {
         setCameraOpen(false);
+        setImageSrc(null);
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data = response.data
       setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
+      if (data.correct) {
+        onCorrectIdentification(riddle.id);
+        await fetchCorrectSubmissionsCount();
+      }
       setCameraOpen(false);
+      setImageSrc(null);
     } catch (error) {
       console.error('Error sending image to predictions:', error);
       setResponseMessage('Error sending image to predictions');
     }
   };
+
+
+  const fetchCorrectSubmissionsCount = async () => {
+    try {
+      if (participationId) {
+        const response = await countCorrectSubmissionsByParticipation(participationId);
+        if (response.status === 200) {
+          setCorrectSubmissionsCount(response.data.correct_count);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  fetchCorrectSubmissionsCount()
 
   return (
     <div className="camera-container">
@@ -64,7 +87,7 @@ const Camera = (props) => {
             videoConstraints={videoConstraints}
             className="webcam"
           />
-          <button className="submit-button" onClick={captureImage}>
+          <button className="submit-button" onClick={captureImage} style={{marginBottom: '20px'}}>
             Capture
           </button>
         </div>

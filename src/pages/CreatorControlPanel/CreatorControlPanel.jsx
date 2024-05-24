@@ -20,6 +20,7 @@ const CreatorControlPanel = () => {
       try {
         const response = await getHuntTemplatesByUser()
         if (response.status == 200) {
+          // console.log(response)
           setHuntTemplates(response.data)
           setLoading(false)
         }
@@ -38,12 +39,33 @@ const CreatorControlPanel = () => {
   return (
     <>
       <Flex align='center' justify='center' wrap='wrap' style={{marginTop: '20px'}} direction='column'>
-        <Text style={{fontSize: '24px', marginBottom: '40px'}}>Creator Control Panel</Text>
-        <Button onClick={handleClick} style={{marginBottom:'40px'}}>Create New</Button>
-          <HuntTemplateEntry hunts={huntTemplates} />
+        <Text
+          as="h1"
+          size="6"
+          weight="bold"
+          color="indigo"
+          variant="soft"
+          highContrast
+        >
+          Creator Control Panel
+        </Text>
+        <Button 
+          onClick={handleClick} 
+          variant="surface" 
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = '#475569';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = '#1E293B';
+          }}
+          style={{ marginTop: '20px' }}
+        >
+          Create New Hunt
+        </Button>
+        <HuntTemplateEntry hunts={huntTemplates} />
       </Flex>
     </>
-  )
-}
+  );
+};
 
 export default CreatorControlPanel

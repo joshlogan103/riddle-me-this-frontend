@@ -1,16 +1,20 @@
+// src/components/RiddlesLayout/RiddlesLayout.jsx
 import { useState, useEffect } from 'react';
 import { getRiddleItemsByTemplate } from '../../services/serviceRoutes/riddleItemServices';
 import { useParams } from 'react-router';
 import * as Tabs from '@radix-ui/react-tabs';
 import Loading from '../Loading/Loading';
 import Camera from '../Camera/Camera';
+import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
-const RiddlesLayout = () => {
-  const [timeLeft, setTimeLeft] = useState(3600);
+const RiddlesLayout = ({ onTimerZero }) => {
+  const [timeLeft, setTimeLeft] = useState(3000);
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("tab1");  // Initialize with the default value
+  const [activeTab, setActiveTab] = useState("");
+  const [riddleSelected, setRiddleSelected] = useState({});
+  const [correctRiddles, setCorrectRiddles] = useState(new Set());
   const { huntTemplateId } = useParams();
 
   useEffect(() => {
@@ -26,21 +30,38 @@ const RiddlesLayout = () => {
       } catch (error) {
         console.error(error);
         setLoading(false);
-        // Optionally update the UI to show an error message
       }
     };
     fetchResponse();
     const timer = setInterval(() => {
-      setTimeLeft(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
+      setTimeLeft(prevTime => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          if (onTimerZero) {
+            onTimerZero();
+          }
+          return 0;
+        }
+        return prevTime - 1;
+      });
     }, 1000);
 
     return () => {
       clearInterval(timer);
     };
-  }, [huntTemplateId]);
+  }, [huntTemplateId, onTimerZero]);
+
+  useEffect(() => {
+    const index = parseInt(activeTab.replace('tab', '')) - 1;
+    setRiddleSelected(riddles[index]);
+  }, [riddles, activeTab]);
 
   const handleTabChange = (value) => {
     setActiveTab(value);
+  };
+
+  const handleCorrectIdentification = (riddleId) => {
+    setCorrectRiddles((prevSet) => new Set(prevSet).add(riddleId));
   };
 
   if (loading) {
@@ -52,34 +73,41 @@ const RiddlesLayout = () => {
 
   return (
     <div>
-      <p className="time-left">Time Left: {`${minutes}m ${seconds}s`}</p>
+      <div style={{textAlign: 'center', marginTop: '20px', marginBottom: '20px'}}>
+      <Text className="time-left" as="h1"
+        size="6"
+        weight="bold"
+        color="indigo"
+        variant="soft"
+        highContrast>Time Left: {`${minutes}m ${seconds}s`}</Text></div>
       {riddles.length > 0 ? (
         <Tabs.Root value={activeTab} onValueChange={handleTabChange} className="riddles-container">
-        <Tabs.List className="riddles-list">
+          <Tabs.List className="riddles-list">
+            {riddles.map((riddle, index) => (
+              <Tabs.Trigger
+                key={index}
+                value={`tab${index + 1}`}
+                className={`riddles-tab ${activeTab === `tab${index + 1}` ? 'active-tab' : ''} ${correctRiddles.has(riddle.id) ? 'correct-riddle' : ''}`}
+                disabled={correctRiddles.has(riddle.id)}
+              >
+                Riddle {index + 1}
+              </Tabs.Trigger>
+            ))}
+          </Tabs.List>
           {riddles.map((riddle, index) => (
-            <Tabs.Trigger 
-              key={index} 
-              value={`tab${index + 1}`} 
-              className={`riddles-tab ${activeTab === `tab${index + 1}` ? 'active-tab' : ''}`}>
-              Riddle {index + 1}
-            </Tabs.Trigger>
+            <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
+              <Card className="riddle-card" variant="surface" padding="20px" style={{ marginTop: '20px', borderRadius: '8px', border: '1px solid var(--color-surface)' }}>
+                <Text size="4" weight="medium" style={{ textAlign: 'center' }}>{riddle.riddle}</Text>
+              </Card>
+            </Tabs.Content>
           ))}
-        </Tabs.List>
-        {riddles.map((riddle, index) => (
-          <Tabs.Content key={index} value={`tab${index + 1}`} className="riddles-content">
-            <p>{riddle.riddle}</p>
-          </Tabs.Content>
-        ))}
-      </Tabs.Root>
-      
+        </Tabs.Root>
       ) : (
         <p>No riddles available</p>
       )}
-      <Camera riddles={riddles}/>
+      <Camera riddle={riddleSelected} onCorrectIdentification={handleCorrectIdentification} />
     </div>
   );
 };
 
 export default RiddlesLayout;
-
-// TODO: once the game is over, the user should be redirected to the hunt details page

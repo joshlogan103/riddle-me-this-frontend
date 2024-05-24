@@ -2,6 +2,8 @@
   font-size: 24px;
   text-align: center; 
   margin-bottom: 20px; 
+  color: rgba(34, 62, 200, 0.8);
+  font-weight: bold;
 }
 
 .riddles-container {
@@ -23,11 +25,12 @@
   text-align: center;
   min-width: 300px; 
   padding: 5px 20px;
+  margin-top: 20px;
 }
 
 .riddles-tab {
-  background-color: rgb(34, 62, 200, 0.2);
-  border: 1px solid rgb(34, 62, 200, 1);
+  background-color: rgba(34, 62, 200, 0.2);
+  border: 1px solid rgba(34, 62, 200, 1);
   border-radius: 7px;
   padding: 5px 10px;
 }
@@ -38,9 +41,14 @@
   color: white; 
 }
 
-
 .active-tab {
   background-color: rgb(34, 62, 200); 
   border-color: rgb(34, 62, 200); 
   color: white;
 }
+
+.correct-riddle {
+  background-color: green;
+  color: white;
+}
+

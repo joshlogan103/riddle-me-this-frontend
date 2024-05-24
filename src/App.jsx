@@ -5,7 +5,6 @@ import BrowseHunts from "./pages/BrowseHunts/BrowseHunts.jsx"
 import ActiveHuntPage from "./pages/ActiveHuntPage/ActiveHuntPage.jsx"
 import CreateHuntTemplate from "./pages/CreateHuntTemplate/CreateHuntTemplate.jsx"
 import CreatorControlPanel from "./pages/CreatorControlPanel/CreatorControlPanel.jsx"
-import EditProfile from "./pages/EditProfile/EditProfile.jsx"
 import HuntDetails from "./pages/HuntDetails/HuntDetails.jsx"
 import LaunchHunt from "./pages/LaunchHunt/LaunchHunt.jsx"
 import MyProfile from "./pages/MyProfile/MyProfile.jsx"
@@ -21,13 +20,12 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />}/>
           <Route path="/browse" element={<BrowseHunts />} />
-          <Route path="/active-hunt/:huntTemplateId" element={<ActiveHuntPage />} />
-          <Route path="/create-hunt" element={<CreateHuntTemplate />} />
-          <Route path="/creator-control-panel" element={<CreatorControlPanel />} />
-          <Route path="/hunt-details/:huntInstanceId/:huntTemplateId" element={<HuntDetails />} />
-          <Route path="/launch-hunt" element={<LaunchHunt />} />
-          <Route path="/profile" element={<MyProfile />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/active-hunt/:huntTemplateId/:huntInstanceId/:participationId" element={<ProtectedRoutes><ActiveHuntPage /></ProtectedRoutes>} />
+          <Route path="/create-hunt" element={<ProtectedRoutes><CreateHuntTemplate /></ProtectedRoutes>} />
+          <Route path="/creator-control-panel" element={<ProtectedRoutes><CreatorControlPanel /></ProtectedRoutes>} />
+          <Route path="/hunt-details/:huntInstanceId/:huntTemplateId" element={<ProtectedRoutes><HuntDetails /></ProtectedRoutes>} />
+          <Route path="/launch-hunt/:huntTemplateId" element={<ProtectedRoutes><LaunchHunt /></ProtectedRoutes>} />
+          <Route path="/profile" element={<ProtectedRoutes><MyProfile /></ProtectedRoutes>} />
         </Routes>
       </div>
     </div>
