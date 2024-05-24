@@ -39,7 +39,16 @@ const CreatorControlPanel = () => {
   return (
     <>
       <Flex align='center' justify='center' wrap='wrap' style={{marginTop: '20px'}} direction='column'>
-        <Text style={{fontSize: '24px', marginBottom: '40px'}}>Creator Control Panel</Text>
+        <Text
+          as="h1"
+          size="6"
+          weight="bold"
+          color="indigo"
+          variant="soft"
+          highContrast
+        >
+          Creator Control Panel
+        </Text>
         <Button 
           onClick={handleClick} 
           variant="surface" 
@@ -49,13 +58,14 @@ const CreatorControlPanel = () => {
           onMouseOut={(e) => {
             e.currentTarget.style.backgroundColor = '#1E293B';
           }}
+          style={{ marginTop: '20px' }}
         >
           Create New Hunt
         </Button>
         <HuntTemplateEntry hunts={huntTemplates} />
       </Flex>
     </>
-  )
-}
+  );
+};
 
 export default CreatorControlPanel
