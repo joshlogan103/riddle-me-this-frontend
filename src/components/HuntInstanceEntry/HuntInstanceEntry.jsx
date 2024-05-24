@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Text, Flex } from "@radix-ui/themes";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getHuntInstancesByTemplate } from "../../services/serviceRoutes/huntInstanceServices";
 
 const HuntInstanceEntry = ({ results, setResults, byHuntId, huntId }) => {
+  const navigate = useNavigate()
   useEffect(() => {
     byHuntId && fetchInstanceData();
     async function fetchInstanceData() {
@@ -19,14 +20,18 @@ const HuntInstanceEntry = ({ results, setResults, byHuntId, huntId }) => {
 
   return (
     <>
-      <Table.Row>
+      {
+        byHuntId
+        ? <Table.Row>
         <Table.ColumnHeaderCell colSpan={2}>
           <Flex justify="end">
-            <Button variant="surface">New Instance</Button>
+            <Button variant="surface" onClick={() => navigate(`/launch-hunt/${huntId}`)}>New Instance</Button>
           </Flex>
           <Flex justify="center">Hunt Instances</Flex>
         </Table.ColumnHeaderCell>
       </Table.Row>
+        : null
+      }
       {results.length > 0 ? (
         results.map((result, index) => {
           const dateObj = new Date(result.start_time);
