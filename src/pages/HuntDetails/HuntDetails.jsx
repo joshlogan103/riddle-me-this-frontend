@@ -212,7 +212,7 @@ const HuntDetails = () => {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {players.map((player, index) => {
+              {players.sort((a,b) => b.items_found - a.items_found).map((player, index) => {
                 return (
                   <Table.Row key={index}>
                     <Table.RowHeaderCell style={{ textAlign: 'center' }}>

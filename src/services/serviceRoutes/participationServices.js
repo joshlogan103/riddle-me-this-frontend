@@ -13,7 +13,7 @@ export const getPartByHuntInst = async (huntId) => {
 };
 
 export const countCorrectSubmissionsByParticipation = async (participationId) => {
-  return await api.get(`api/participations/${participationId}/count-correct/`);
+  return await api.get(`/participations/${participationId}/count-correct/`);
 }
 
 export const createParticipation = async (profileId, huntInstId, payload) => {
