@@ -35,7 +35,6 @@ const Camera = (props) => {
   const submitImage = async () => {
     try {
       const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, participationId, { image: imageSrc, label: riddle.item.name });
-      await fetchCorrectSubmissionsCount();
 
       if (!response.status == 200) {
         setCameraOpen(false);
@@ -47,6 +46,7 @@ const Camera = (props) => {
       setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
       if (data.correct) {
         onCorrectIdentification(riddle.id);
+        await fetchCorrectSubmissionsCount();
       }
       setCameraOpen(false);
       setImageSrc(null);
