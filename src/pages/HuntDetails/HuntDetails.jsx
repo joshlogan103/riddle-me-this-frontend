@@ -203,6 +203,7 @@ const HuntDetails = () => {
         <Flex align={'center'}>
           <Text size="4" weight="medium" style={{ marginBottom: '10px', textAlign: 'center', width: '80vw' }}>Leaderboard</Text>
         </Flex>
+        
         <Box width="100%" mt="20px">
           <Table.Root>
             <Table.Header>

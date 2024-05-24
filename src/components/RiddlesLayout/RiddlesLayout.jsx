@@ -73,7 +73,13 @@ const RiddlesLayout = ({ onTimerZero }) => {
 
   return (
     <div>
-      <p className="time-left">Time Left: {`${minutes}m ${seconds}s`}</p>
+      <div style={{textAlign: 'center', marginTop: '20px', marginBottom: '20px'}}>
+      <Text className="time-left" as="h1"
+        size="6"
+        weight="bold"
+        color="indigo"
+        variant="soft"
+        highContrast>Time Left: {`${minutes}m ${seconds}s`}</Text></div>
       {riddles.length > 0 ? (
         <Tabs.Root value={activeTab} onValueChange={handleTabChange} className="riddles-container">
           <Tabs.List className="riddles-list">
