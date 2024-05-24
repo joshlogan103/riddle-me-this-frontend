@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Flex, Text, Box, Table } from '@radix-ui/themes';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getHuntInstanceById } from '../../services/serviceRoutes/huntInstanceServices';
-import { createParticipation, getPartByProfileAndHuntInstance, getPartByHuntInst } from '../../services/serviceRoutes/participationServices';
+import { createParticipation, getPartByProfileAndHuntInstance, getPartByHuntInst, countCorrectSubmissionsByParticipation } from '../../services/serviceRoutes/participationServices';
 import Loading from '../../components/Loading/Loading';
 import { getProfile } from '../../services/serviceRoutes/userServices';
 
@@ -11,6 +11,7 @@ const HuntDetails = () => {
   const [profile, setProfile] = useState({});
   const [players, setPlayers] = useState([]);
   const [participation, setParticipation] = useState(null);
+  const [correctSubmissionsCount, setCorrectSubmissionsCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const { huntInstanceId, huntTemplateId } = useParams();
   const navigate = useNavigate();
@@ -97,6 +98,19 @@ const HuntDetails = () => {
     }
   };
 
+  const fetchCorrectSubmissionsCount = async () => {
+    try {
+      if (participation && participation.id) {
+        const response = await countCorrectSubmissionsByParticipation(participation.id);
+        if (response.status === 200) {
+          setCorrectSubmissionsCount(response.data.correct_count);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchProfile();
@@ -111,6 +125,10 @@ const HuntDetails = () => {
       fetchHuntInstance();
     }
   }, [profile, huntTemplateId, huntInstanceId]);
+
+  useEffect(() => {
+    fetchCorrectSubmissionsCount();
+  }, [participation]);
 
   if (loading) {
     return <Loading />;
@@ -152,6 +170,8 @@ const HuntDetails = () => {
         <Text>{startTime}</Text>
         <Text as="label" size="4xl" weight="medium">Location</Text>
         <Text>{huntInstance.scavenger_hunt?.location || 'location'}</Text>
+        <Text as="label" size="4xl" weight="medium">Correct Submissions</Text>
+        <Text>{correctSubmissionsCount}</Text>
       </Flex>
       <Box
         style={{
