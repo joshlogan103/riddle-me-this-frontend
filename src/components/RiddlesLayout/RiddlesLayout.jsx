@@ -8,7 +8,7 @@ import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = () => {
-  const [timeLeft, setTimeLeft] = useState(3600);
+  const [timeLeft, setTimeLeft] = useState(20);
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("");
@@ -91,4 +91,3 @@ const RiddlesLayout = () => {
 
 export default RiddlesLayout;
 
-// TODO: once the game is over, the user should be redirected to the hunt details page
