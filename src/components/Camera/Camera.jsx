@@ -1,3 +1,4 @@
+// src/components/Camera/Camera.jsx
 import { useRef, useState } from 'react';
 import { Camera as CameraIcon } from 'phosphor-react';
 import Webcam from 'react-webcam';
@@ -6,7 +7,7 @@ import { createRiddleItemSubmission } from '../../services/serviceRoutes/riddleI
 import { useParams } from 'react-router';
 
 const Camera = (props) => {
-  const { riddle } = props;
+  const { riddle, onCorrectIdentification } = props;
   const { participationId } = useParams();
 
   const webcamRef = useRef(null);
@@ -14,8 +15,6 @@ const Camera = (props) => {
   const [imageSrc, setImageSrc] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
   const [videoConstraints, setVideoConstraints] = useState({
-    width: 1280,
-    height: 720,
     facingMode: "environment"  // Attempt to use the rear camera on devices
   });
 
@@ -32,13 +31,7 @@ const Camera = (props) => {
   };
 
   const submitImage = async () => {
-    console.log("Riddles object:", riddle); 
-
     try {
-      console.log(riddle)
-
-      // export const createRiddleItemSubmission = async (huntTemplateId, riddleItemId, participationId, payload)
-      console.log(riddle.scavenger_hunt.id, riddle.id, riddle.item.name)
       const response = await createRiddleItemSubmission(riddle.scavenger_hunt.id, riddle.id, participationId, { image: imageSrc, label: riddle.item.name });
 
       if (!response.status == 200) {
@@ -49,6 +42,9 @@ const Camera = (props) => {
 
       const data = response.data
       setResponseMessage(data.correct ? "Object Present: True" : "Object Present: False");
+      if (data.correct) {
+        onCorrectIdentification(riddle.id);
+      }
       setCameraOpen(false);
       setImageSrc(null);
     } catch (error) {
