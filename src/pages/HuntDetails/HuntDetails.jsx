@@ -78,6 +78,7 @@ const HuntDetails = () => {
       const huntResponse = await getHuntInstanceById(huntTemplateId, huntInstanceId);
       if (huntResponse.status === 200) {
         setHuntInstance(huntResponse.data.hunt_instance);
+        console.log(huntResponse.data.hunt_instance.start_time)
       }
       setLoading(false);
     } catch (error) {
