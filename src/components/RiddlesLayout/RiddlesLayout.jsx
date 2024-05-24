@@ -8,7 +8,7 @@ import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = ({ onTimerZero }) => {
-  const [timeLeft, setTimeLeft] = useState(3);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes = seconds
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("");
