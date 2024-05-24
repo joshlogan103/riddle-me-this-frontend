@@ -8,16 +8,16 @@ import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = ({ onTimerZero }) => {
-  const [timeLeft, setTimeLeft] = useState(1000);
+  const [timeLeft, setTimeLeft] = useState(100);
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("");
   const [riddleSelected, setRiddleSelected] = useState({});
   const { huntTemplateId } = useParams();
 
-  const handleRiddleTimerZero = () => {
-    setShowDialog(true);
-  };
+  // const handleRiddleTimerZero = () => {
+  //   setShowDialog(true);
+  // };
 
   useEffect(() => {
     const fetchResponse = async () => {
