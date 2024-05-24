@@ -53,6 +53,7 @@ const HuntTemplateEntry = (props) => {
                           textDecoration: "none",
                           color: "inherit",
                           width: "150px",
+                          height: "50px"
                         }}
                         onClick={() => toggleRow(index)}
                       >
