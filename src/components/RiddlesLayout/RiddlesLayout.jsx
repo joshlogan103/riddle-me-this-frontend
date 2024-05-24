@@ -1,3 +1,4 @@
+// src/components/RiddlesLayout/RiddlesLayout.jsx
 import { useState, useEffect } from 'react';
 import { getRiddleItemsByTemplate } from '../../services/serviceRoutes/riddleItemServices';
 import { useParams } from 'react-router';
@@ -8,16 +9,13 @@ import { Text, Flex, Card } from '@radix-ui/themes';
 import './RiddlesLayout.css';
 
 const RiddlesLayout = ({ onTimerZero }) => {
-  const [timeLeft, setTimeLeft] = useState(100);
+  const [timeLeft, setTimeLeft] = useState(3000);
   const [riddles, setRiddles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("");
   const [riddleSelected, setRiddleSelected] = useState({});
+  const [correctRiddles, setCorrectRiddles] = useState(new Set());
   const { huntTemplateId } = useParams();
-
-  // const handleRiddleTimerZero = () => {
-  //   setShowDialog(true);
-  // };
 
   useEffect(() => {
     const fetchResponse = async () => {
@@ -32,7 +30,6 @@ const RiddlesLayout = ({ onTimerZero }) => {
       } catch (error) {
         console.error(error);
         setLoading(false);
-        // Optionally update the UI to show an error message
       }
     };
     fetchResponse();
@@ -63,6 +60,10 @@ const RiddlesLayout = ({ onTimerZero }) => {
     setActiveTab(value);
   };
 
+  const handleCorrectIdentification = (riddleId) => {
+    setCorrectRiddles((prevSet) => new Set(prevSet).add(riddleId));
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -80,7 +81,8 @@ const RiddlesLayout = ({ onTimerZero }) => {
               <Tabs.Trigger
                 key={index}
                 value={`tab${index + 1}`}
-                className={`riddles-tab ${activeTab === `tab${index + 1}` ? 'active-tab' : ''}`}
+                className={`riddles-tab ${activeTab === `tab${index + 1}` ? 'active-tab' : ''} ${correctRiddles.has(riddle.id) ? 'correct-riddle' : ''}`}
+                disabled={correctRiddles.has(riddle.id)}
               >
                 Riddle {index + 1}
               </Tabs.Trigger>
@@ -97,7 +99,7 @@ const RiddlesLayout = ({ onTimerZero }) => {
       ) : (
         <p>No riddles available</p>
       )}
-      <Camera riddle={riddleSelected} />
+      <Camera riddle={riddleSelected} onCorrectIdentification={handleCorrectIdentification} />
     </div>
   );
 };

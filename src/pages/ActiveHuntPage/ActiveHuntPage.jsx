@@ -54,7 +54,7 @@ const ActiveHunt = () => {
   };
 
   const handleRedirect = () => {
-    navigate('/');
+    navigate('/browse');
   };
 
   const handleRiddleTimerZero = () => {
@@ -82,7 +82,7 @@ const ActiveHunt = () => {
       <Dialog.Root open={showDialog} onOpenChange={setShowDialog}>
         <Dialog.Content className="dialog-content">
           <Dialog.Title>The hunt is over</Dialog.Title>
-          <Button className="dialog-close" variant='surface' onClick={handleRedirect}>Return home</Button>
+          <Button className="dialog-close" variant='surface' onClick={handleRedirect}>Browse Hunts</Button>
         </Dialog.Content>
       </Dialog.Root>
     </div>
